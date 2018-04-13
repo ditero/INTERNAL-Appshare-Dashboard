@@ -5,7 +5,7 @@
 /*
  * Your dashboard ViewModel code goes here
  */
-define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojmasonrylayout', 'jet-composites/modules-graph/loader'],
+define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojmasonrylayout', 'jet-composites/modules-graph/loader', 'jet-composites/account-graph/loader'],
     function(oj, ko, $) {
 
         function DashboardViewModel() {
@@ -32,7 +32,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojmasonrylayout', 'jet-composit
 
             self.handleBindingsApplied = function(info) {
                 $('#3x2').append($('#moduleGraph'));
-                // $('#2x3').append($('#accountGraph'));
+                $('#2x3').append($('#accountGraph'));
                 // $('#mobile').append($('#mobileGraph'));
 
             };
