@@ -33,6 +33,19 @@
     </oj-table>
 
     <br>
-    <oj-chart id="pieChart" type="pie" series="[[pieSeriesValue]]" animation-on-display="auto" animation-on-data-change="auto" style-defaults.three-d-effect="[[threeDValue]]" style-defaults.data-label-position="[[dataLabelPositionValue]]" style="max-width:500px;width:100%;height:310px;">
+    <br>
+    <div style="padding-left:16px; float: left">
+        <oj-buttonset-many id="advancedWrapper" value="{{threeDToggle}}">
+            <oj-option value="on" id="option">Switch On 3D View</oj-option>
+        </oj-buttonset-many>
+
+        <oj-button id="button3" aria-controls="pieChart" on-click="[[explodeButtonClick]]">
+            Explode/Unexplode
+        </oj-button>
+    </div>
+    <br style="clear: left;" />
+
+    <oj-chart id="pieChart" type="pie" series="[[pieSeriesValue]]" animation-on-display="auto" animation-on-data-change="auto" hidden-categories='{{hiddenCategories}}' style-defaults.three-d-effect="[[threeDValue]]" style-defaults.data-label-position="[[dataLabelPositionValue]]"
+        style="max-width:500px;width:100%;height:280px;">
     </oj-chart>
 </div>

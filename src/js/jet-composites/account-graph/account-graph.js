@@ -161,7 +161,21 @@ define(
             self.columnArray = AccountFunctions().parseTableData();
 
             /// ACTION CHART
-            self.threeDValue = ko.observable('on');
+            self.threeDValue = ko.observable('off');
+            self.threeDToggle = ko.observableArray([]);
+            self.optionText = ko.observable("Switch On 3D View");
+            self.changedChartView = ko.computed(function() {
+                let value = self.threeDToggle()[0];
+                self.threeDValue(value);
+                if (value) {
+                    $("#option").text("");
+                    $("#option").append('<span class="oj-button-text">Switch Off 3D View</span>');
+                } else {
+                    $("#option").text("");
+                    $("#option").append('<span class="oj-button-text">Switch On 3D View</span>');
+                };
+            }, this);
+
             self.dataLabelPositionValue = ko.observable('outsideSlice');
             self.pieSeriesValue = ko.observableArray([]);
 
@@ -186,7 +200,7 @@ define(
                         let actionName = action;
                         let actionValue = actions[action];
 
-                        let actionObj = { name: actionName, items: [actionValue] };
+                        let actionObj = { name: actionName, items: [actionValue], pieSliceExplode: 0 };
                         pieSeries.push(actionObj);
                     };
 
@@ -206,6 +220,19 @@ define(
                     clearInterval(checkLogArray);
                 }
             }, 500);
+
+            self.explodeButtonClick = function(event) {
+                let series = self.pieSeriesValue();
+                for (var s = 0; s < series.length; s++) {
+                    if (Math.random() < 0.5) {
+                        series[s].pieSliceExplode = 2 - series[s].pieSliceExplode;
+                    };
+                };
+
+                self.pieSeriesValue(series);
+            };
+
+            self.hiddenCategories = ko.observableArray([]);
 
             context.props.then(function(propertyMap) {
                 //Store a reference to the properties for any later use
