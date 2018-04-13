@@ -1,0 +1,31 @@
+<style>
+
+</style>
+<div class="container">
+    <!-- 
+    <div class="oj-flex" data-bind="css: {'oj-sm-flex-wrap-nowrap': nowrap()}">
+
+        <div class="oj-flex-item">
+            <account-graph id="accountGraph"></account-graph>
+        </div>
+
+
+        <div class="oj-flex-item">
+            <modules-graph></modules-graph>
+        </div>
+
+        <div class="oj-flex-item">B</div>
+    </div> -->
+
+    <div class="demo-scroll-container">
+        <oj-masonry-layout id="masonryLayout">
+            <!-- ko foreach: chemicals -->
+            <div class="oj-panel demo-tile" data-bind="css: sizeClass, attr:{id: name}"></div>
+            <!-- /ko -->
+        </oj-masonry-layout>
+    </div>
+</div>
+</div>
+
+<modules-graph id="moduleGraph"></modules-graph>
+<!-- <account-graph id="accountGraph"></account-graph> -->

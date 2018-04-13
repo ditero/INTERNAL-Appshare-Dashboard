@@ -1,0 +1,7 @@
+account-graph:not(.oj-complete){
+  visibility: hidden;
+}
+
+account-graph{
+
+}

@@ -1,0 +1,7 @@
+mobile-graph:not(.oj-complete){
+  visibility: hidden;
+}
+
+mobile-graph{
+
+}

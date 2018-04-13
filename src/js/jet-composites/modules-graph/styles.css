@@ -1,0 +1,7 @@
+modules-graph:not(.oj-complete){
+  visibility: hidden;
+}
+
+modules-graph{
+
+}
