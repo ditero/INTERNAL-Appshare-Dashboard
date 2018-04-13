@@ -161,11 +161,37 @@ define(
             self.columnArray = AccountFunctions().parseTableData();
 
             /// ACTION CHART
+            self.threeDValue = ko.observable('on');
+            self.dataLabelPositionValue = ko.observable('outsideSlice');
+            self.pieSeriesValue = ko.observableArray([]);
+
             const ActionChart = () => {
                 const initialiseChart = (logData) => {
-                    console.log(logData);
+                    let filterData = modifyData(logData);
                 };
 
+                const modifyData = (logData) => {
+                    let actions = {};
+                    let pieSeries = [];
+
+                    logData.forEach(log => {
+                        if (actions[log.action] === undefined) {
+                            actions[log.action] = 1;
+                        } else {
+                            actions[log.action] += 1;
+                        };
+                    });
+
+                    for (var action in actions) {
+                        let actionName = action;
+                        let actionValue = actions[action];
+
+                        let actionObj = { name: actionName, items: [actionValue] };
+                        pieSeries.push(actionObj);
+                    };
+
+                    self.pieSeriesValue(pieSeries);
+                };
                 return {
                     initialiseChart
                 }
@@ -180,21 +206,6 @@ define(
                     clearInterval(checkLogArray);
                 }
             }, 500);
-
-
-
-            self.threeDValue = ko.observable('off');
-
-            /* chart data */
-            var pieSeries = [{ name: "Series 1", items: [42] },
-                { name: "Series 2", items: [55] },
-                { name: "Series 3", items: [36] },
-                { name: "Series 4", items: [10] },
-                { name: "Series 5", items: [5] }
-            ];
-
-            self.pieSeriesValue = ko.observableArray(pieSeries);
-
 
             context.props.then(function(propertyMap) {
                 //Store a reference to the properties for any later use
