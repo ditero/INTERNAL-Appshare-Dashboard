@@ -1,0 +1,7 @@
+server-graph:not(.oj-complete){
+  visibility: hidden;
+}
+
+server-graph{
+
+}

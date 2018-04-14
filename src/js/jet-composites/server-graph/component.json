@@ -1,6 +1,6 @@
 {
-  "name": "modules-graph",
-  "displayName": "modules-graph",
+  "name": "server-graph",
+  "displayName": "server-graph",
   "description": "Describe your component here",
   "version": "1.0.0",
   "jetVersion": "4.2.0",

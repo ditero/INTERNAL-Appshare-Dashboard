@@ -5,7 +5,7 @@
 /*
  * Your dashboard ViewModel code goes here
  */
-define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojmasonrylayout', 'jet-composites/modules-graph/loader', 'jet-composites/account-graph/loader'],
+define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojmasonrylayout', 'jet-composites/modules-graph/loader', 'jet-composites/account-graph/loader', 'jet-composites/mobile-graph/loader', 'jet-composites/server-graph/loader'],
     function(oj, ko, $) {
 
         function DashboardViewModel() {
@@ -13,16 +13,20 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojmasonrylayout', 'jet-composit
             self.nowrap = ko.observable(false);
 
             self.chemicals = [{
-                    name: '3x2',
+                    name: 'modules',
                     sizeClass: 'oj-masonrylayout-tile-4x3'
                 },
                 {
-                    name: '2x3',
+                    name: 'accounts',
                     sizeClass: 'oj-masonrylayout-tile-4x4'
                 },
                 {
-                    name: '2x1',
-                    sizeClass: 'oj-masonrylayout-tile-4x1'
+                    name: 'servers',
+                    sizeClass: 'oj-masonrylayout-tile-4x2'
+                },
+                {
+                    name: 'mobile',
+                    sizeClass: 'oj-masonrylayout-tile-3x1'
                 }
             ];
 
@@ -31,10 +35,10 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojmasonrylayout', 'jet-composit
             // })
 
             self.handleBindingsApplied = function(info) {
-                $('#3x2').append($('#moduleGraph'));
-                $('#2x3').append($('#accountGraph'));
-                // $('#mobile').append($('#mobileGraph'));
-
+                $('#modules').append($('#moduleGraph'));
+                $('#accounts').append($('#accountGraph'));
+                $('#mobile').append($('#mobileGraph'));
+                $('#servers').append($('#serverGraph'));
             };
         }
 
