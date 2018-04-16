@@ -1,5 +1,5 @@
 define(
-    ['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojknockout', 'ojs/ojchart', 'service-worker'],
+    ['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojknockout', 'ojs/ojchart', 'serviceworker'],
     function(oj, ko, $) {
         'use strict';
 
@@ -22,13 +22,9 @@ define(
             self.barGroupsValue = ko.observableArray(barGroups);
 
 
-            let days = { days: 10 };
 
-            let Modules = new Service('POST', 'http://localhost:3001/readactivity', days, 'application/json');
-
-            let modules = Modules.onLoadLogData();
-
-            modules.done((data) => {
+            // modules.done((data) => {
+            function ProccessGraph(data) {
                 let moduleNames = {};
                 let modules = [];
                 data.forEach(element => {
@@ -48,18 +44,27 @@ define(
                 };
 
                 self.barSeriesValue(barSeries);
-            });
+            }
 
-            modules.fail(function(jqXHR, textStatus) {
-                alert("Request failed: " + textStatus);
-            });
+
+            self.data = ko.observableArray();
 
             context.props.then(function(propertyMap) {
                 //Store a reference to the properties for any later use
                 self.properties = propertyMap;
 
                 //Parse your component properties here 
+                setTimeout(() => {
+                    new ProccessGraph(self.properties.data);
+                    self.data(self.properties.data);
 
+                    setInterval(() => {
+                        if (self.properties.data !== self.data()) {
+                            self.data(self.properties.data);
+                            new ProccessGraph(self.properties.data);
+                        }
+                    }, 1000)
+                }, 1000)
             });
         };
 

@@ -3,7 +3,7 @@
   The Universal Permissive License (UPL), Version 1.0
 */
 define(
-    ['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojknockout', 'promise', 'ojs/ojtable', 'ojs/ojinputtext', 'ojs/ojbutton', 'ojs/ojarraydataprovider', 'service-worker'],
+    ['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojknockout', 'promise', 'ojs/ojtable', 'ojs/ojinputtext', 'ojs/ojbutton', 'ojs/ojarraydataprovider', 'serviceworker'],
     function(oj, ko, $) {
         'use strict';
 
@@ -18,9 +18,8 @@ define(
 
             /// ACCOUNTS TABLE
             const AccountFunctions = () => {
-                const initialiseTable = async(days) => {
+                const initialiseTable = async(logData) => {
                     // Get Data
-                    let logData = await getData(days);
                     let modifiedLogs = modifyData(logData);
 
                     self.logArray(modifiedLogs);
@@ -150,7 +149,7 @@ define(
                 };
             };
 
-            AccountFunctions().initialiseTable(days);
+
 
             self.handleValueChanged = AccountFunctions().filter;
 
@@ -213,14 +212,6 @@ define(
 
             let actionChart = ActionChart();
 
-            const checkLogArray = setInterval(() => {
-                console.log('checking for log data....');
-                if (self.logArray().length > 0) {
-                    actionChart.initialiseChart(self.logArray());
-                    clearInterval(checkLogArray);
-                }
-            }, 500);
-
             self.explodeButtonClick = function(event) {
                 let series = self.pieSeriesValue();
                 for (var s = 0; s < series.length; s++) {
@@ -234,9 +225,25 @@ define(
 
             self.hiddenCategories = ko.observableArray([]);
 
+            self.data = ko.observableArray();
+
             context.props.then(function(propertyMap) {
                 //Store a reference to the properties for any later use
                 self.properties = propertyMap;
+
+                setTimeout(() => {
+                    AccountFunctions().initialiseTable(self.properties.data);
+                    actionChart.initialiseChart(self.properties.data);
+                    self.data(self.properties.data);
+
+                    setInterval(() => {
+                        if (self.properties.data !== self.data()) {
+                            AccountFunctions().initialiseTable(self.properties.data);
+                            actionChart.initialiseChart(self.properties.data);
+                            self.data(self.properties.data);
+                        }
+                    }, 1000)
+                }, 1000)
             });
         };
         return AccountGraphicsComponentModel;

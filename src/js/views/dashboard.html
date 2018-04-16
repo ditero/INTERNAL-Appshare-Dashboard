@@ -1,11 +1,37 @@
 <style>
     #mobile,
     #module,
-    #account {
+    #account,
+    #servers {
         overflow-y: scroll;
+    }
+    
+    #masonryLayout {
+        padding-left: 50px;
     }
 </style>
 <div class="container">
+    <div id="dialogWrapper">
+        <oj-dialog style="display:none;width: 50vw; height: 50vh;" id="percentDialog" title="Appshare User Settings" modality="modeless">
+            <div slot="body">
+                <div id="div1">
+
+                    <oj-input-date id="minmax" value={{value}} min="[[oj.IntlConverterUtils.dateToLocalIso(new Date(2013, 10, 25))]]" max="{{max}}">
+                    </oj-input-date>
+
+
+                </div>
+            </div>
+
+            <div slot="footer">
+                <oj-button id="okButton" data-bind="click: handleOKClose">
+                    SAVE
+                </oj-button>
+            </div>
+        </oj-dialog>
+        <oj-button id="buttonOpener" data-bind="click: handleOpen">Settings</oj-button>
+    </div>
+
     <div class="demo-scroll-container">
         <oj-masonry-layout id="masonryLayout">
             <!-- ko foreach: chemicals -->
@@ -14,9 +40,15 @@
         </oj-masonry-layout>
     </div>
 </div>
+
+
 </div>
 
-<modules-graph id="moduleGraph"></modules-graph>
-<account-graph id="accountGraph"></account-graph>
-<mobile-graph id="mobileGraph"></mobile-graph>
+
+
+
+<total-logs id="totalLogs"></total-logs>
+<modules-graph id="moduleGraph" data="{{logs}}"></modules-graph>
+<account-graph id="accountGraph" data="{{logs}}"></account-graph>
+<mobile-graph id="mobileGraph" data={{logs}}></mobile-graph>
 <server-graph id="serverGraph"></server-graph>

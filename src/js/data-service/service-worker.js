@@ -1,18 +1,24 @@
-'use strict';
+const serviceworker = (() => {
 
-class Service {
-    constructor(post, url, data, contentType) {
-        this.post = post;
-        this.url = url;
-        this.data = data;
-        this.contentType = contentType;
-    }
-
-    onLoadLogData() {
-        return $.ajax({
-            url: this.url,
-            method: this.post,
-            data: this.data
+    const getLogData = (method, url, data) => {
+        let logData = $.ajax({
+            method: method,
+            url: url,
+            data: data,
+            success: ((logs) => {
+                return logs;
+            }),
+            fail: ((jqXHR, textStatus) => {
+                alert(jqXHR, textStatus);
+            })
         });
+
+
+        return logData.done((data) => { return data })
+
+    };
+
+    return {
+        getLogData
     }
-};
+})();
