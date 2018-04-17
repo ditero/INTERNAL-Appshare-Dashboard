@@ -66,7 +66,7 @@
                                 <hr>
                                 <div class="oj-flex ">
                                     <div class="oj-flex-item ">
-                                        <oj-label for="input" label-id="inputgrouplabel ">Delete Log By Server</oj-label>
+                                        <oj-label for="input" label-id="inputgrouplabel">Delete Log By Server</oj-label>
                                     </div>
                                 </div>
                                 <div class="oj-flex">
@@ -74,12 +74,8 @@
                                         <select id="basicSelect" data-bind="ojComponent: {component: 'ojSelect',
                                             value: selectedServer,
                                             rootAttributes: {style:'max-width:20em'}}">
-<option value="IE">Internet Explorer</option>
-<option value="FF">Firefox</option>
-<option value="CH">Chrome</option>
-<option value="OP">Opera</option>
-<option value="SA">Safari</option>
-</select>
+                                            <option data-bind="value: $data.label"></option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -90,7 +86,7 @@
 
 
             <div slot="footer">
-                <a id="okButton" class="button7" style="background-color: #a8a8a8" data-bind="click: handleOKClose">Cancel</a>
+                <a id="okButton" class="button7" style="background-color: #a8a8a8" data-bind="click: handleCancel">Cancel</a>
                 <a id="okButton" class="button7" style="background-color:#2979FF" data-bind="click: handleOKClose">Save</a>
             </div>
         </oj-dialog>

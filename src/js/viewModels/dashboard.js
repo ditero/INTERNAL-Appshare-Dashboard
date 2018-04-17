@@ -28,6 +28,14 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'serviceworker', 'ojs/ojknockout', '
 
             self.selectedServer = ko.observableArray(["CH"]);
 
+            self.serverlist = ko.observableArray([
+                { value: 'Internet Explorer', label: 'Internet Explorer' },
+                { value: 'Firefox', label: 'Firefox' },
+                { value: 'Chrome', label: 'Chrome' },
+                { value: 'Opera', label: 'Opera' },
+                { value: 'Safari', label: 'Safari' }
+            ]);
+
             self.handleOpen = function() {
                 document.querySelector("#percentDialog").open();
             };
@@ -46,9 +54,29 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'serviceworker', 'ojs/ojknockout', '
                 document.querySelector("#percentDialog").close();
             };
 
+            self.handleCancel = function() {
+                document.querySelector("#percentDialog").close();
+            };
+
 
             serviceworker.getLogData("POST", "http://localhost:3001/readactivity", retentionDays).done((logs) => {
                 self.logs(logs);
+                let server = {};
+                // self.serverlist([]);
+
+                // logs.forEach(log => {
+                //     if (server[log.server] === undefined) {
+                //         server["server"] = { value: log.server, label: log.server };
+                //     }
+                // });
+
+                // for (i in server) {
+                //     self.serverlist.push(server[i]);
+                // }
+
+                // console.log(self.serverlist())
+
+                self.serverlist.push({ value: 'Ace', label: 'Ace' });
             });
 
 
