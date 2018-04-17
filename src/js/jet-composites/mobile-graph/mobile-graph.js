@@ -18,9 +18,9 @@ define(
             self.difference = ko.observable("");
             self.finding = ko.observable("");
 
-            function PictoChartModel(data, retentionDays) {
+            function PictoChartModel(data) {
                 self.pictoChartItems([]);
-                //filter for mobile
+
 
                 let totalDesktopDevices = data.filter(log => {
                     if (log.mobile === false) {
@@ -49,7 +49,6 @@ define(
 
                 self.difference(stat);
                 self.finding(find);
-
             };
 
 

@@ -27,6 +27,8 @@ define(
             function ProccessGraph(data) {
                 let moduleNames = {};
                 let modules = [];
+                barSeries = [];
+
                 data.forEach(element => {
 
                     if (moduleNames[element.moduleDescription] === undefined) {

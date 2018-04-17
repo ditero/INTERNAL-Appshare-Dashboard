@@ -3,36 +3,52 @@
   The Universal Permissive License (UPL), Version 1.0
 */
 define(
-    ['ojs/ojcore', 'knockout', 'jquery'], function (oj, ko, $) {
-    'use strict';
-    
-    function ExampleComponentModel(context) {
-        var self = this;
-        self.composite = context.element;
-        //Example observable
-        self.messageText = ko.observable('Hello from Example Component');
+    ['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojknockout', 'ojs/ojgauge'],
+    function(oj, ko, $) {
+        'use strict';
 
-        context.props.then(function (propertyMap) {
-            //Store a reference to the properties for any later use
-            self.properties = propertyMap;
+        function TotalLogsComponentModel(context) {
+            var self = this;
+            self.composite = context.element;
 
-            //Parse your component properties here 
+            self.logs = ko.observable(0);
+            self.customers = ko.observable(0);
+            self.data = ko.observableArray([]);
+            self.thresholdValues = [{ max: 33 }, { max: 67 }, {}];
 
-        });
-    };
-    
-    //Lifecycle methods - uncomment and implement if necessary 
-    //ExampleComponentModel.prototype.activated = function(context){
-    //};
+            function initialiseGauge(data) {
+                let totalLogs = Number(data.length)
+                self.logs(totalLogs);
 
-    //ExampleComponentModel.prototype.attached = function(context){
-    //};
+                let customers = data.filter((log) => {
+                    if (log.appCustomer) {
+                        return log;
+                    };
+                });
 
-    //ExampleComponentModel.prototype.bindingsApplied = function(context){
-    //};
+                let totalCustomers = Number(customers.length);
 
-    //ExampleComponentModel.prototype.detached = function(context){
-    //};
+                self.customers(totalCustomers);
+            };
 
-    return ExampleComponentModel;
-});
+            context.props.then(function(propertyMap) {
+                //Store a reference to the properties for any later use
+                self.properties = propertyMap;
+                setTimeout(() => {
+                    initialiseGauge(self.properties.data);
+
+                    self.data(self.properties.data);
+
+                    setInterval(() => {
+                        if (self.properties.data !== self.data()) {
+                            initialiseGauge(self.properties.data);
+
+                            self.data(self.properties.data);
+                        }
+                    }, 1000)
+                }, 1000)
+            });
+        };
+
+        return TotalLogsComponentModel;
+    });

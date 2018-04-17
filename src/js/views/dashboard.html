@@ -9,24 +9,89 @@
     #masonryLayout {
         padding-left: 50px;
     }
+    
+    a.button7 {
+        width: 40%;
+        display: inline-block;
+        padding: 0.7em 0.2em;
+        margin: 0 0.3em 0.3em 0;
+        border-radius: 0.2em;
+        box-sizing: border-box;
+        text-decoration: none;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 400;
+        color: #FFFFFF;
+        background-color: #3369ff;
+        box-shadow: inset 0 -0.6em 1em -0.35em rgba(0, 0, 0, 0.17), inset 0 0.6em 2em -0.3em rgba(255, 255, 255, 0.15), inset 0 0 0em 0.05em rgba(255, 255, 255, 0.12);
+        text-align: center;
+        position: relative;
+    }
+    
+    a.button7:active {
+        box-shadow: inset 0 0.6em 2em -0.3em rgba(0, 0, 0, 0.15), inset 0 0 0em 0.05em rgba(255, 255, 255, 0.12);
+    }
+    
+    a.button7:hover {
+        cursor: pointer;
+    }
 </style>
+
+
 <div class="container">
     <div id="dialogWrapper">
-        <oj-dialog style="display:none;width: 50vw; height: 50vh;" id="percentDialog" title="Appshare User Settings" modality="modeless">
+        <oj-dialog style="display:none;width: 50vw; height: 60vh;" id="percentDialog" title="Appshare User Settings" modality="modeless">
             <div slot="body">
-                <div id="div1">
+                <div class="container">
+                    <div class="oj-sm-odd-cols-12 oj-md-odd-cols-4 oj-flex-items-pad">
+                        <div class="oj-flex-item">
+                            <div class="oj-form loginForm">
 
-                    <oj-input-date id="minmax" value={{value}} min="[[oj.IntlConverterUtils.dateToLocalIso(new Date(2013, 10, 25))]]" max="{{max}}">
-                    </oj-input-date>
+                                <div class="oj-flex">
+                                    <div class="oj-flex-item">
 
-
+                                        <oj-label for="input">Retention Days</oj-label>
+                                    </div>
+                                </div>
+                                <div class="oj-flex">
+                                    <div class="oj-flex-item">
+                                        <oj-input-date id="minmax" onchange="[[calculateDays]]" value={{value}} min="[[oj.IntlConverterUtils.dateToLocalIso(new Date(2013, 10, 25))]]" max="{{max}}">
+                                        </oj-input-date>
+                                    </div>
+                                </div>
+                                <div class="oj-flex">
+                                    <div class="oj-flex-item">
+                                        <span data-bind="text: noOfDays"></span>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="oj-flex ">
+                                    <div class="oj-flex-item ">
+                                        <oj-label for="input" label-id="inputgrouplabel ">Delete Log By Server</oj-label>
+                                    </div>
+                                </div>
+                                <div class="oj-flex">
+                                    <div class="oj-flex-item">
+                                        <select id="basicSelect" data-bind="ojComponent: {component: 'ojSelect',
+                                            value: selectedServer,
+                                            rootAttributes: {style:'max-width:20em'}}">
+<option value="IE">Internet Explorer</option>
+<option value="FF">Firefox</option>
+<option value="CH">Chrome</option>
+<option value="OP">Opera</option>
+<option value="SA">Safari</option>
+</select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
+
             <div slot="footer">
-                <oj-button id="okButton" data-bind="click: handleOKClose">
-                    SAVE
-                </oj-button>
+                <a id="okButton" class="button7" style="background-color: #a8a8a8" data-bind="click: handleOKClose">Cancel</a>
+                <a id="okButton" class="button7" style="background-color:#2979FF" data-bind="click: handleOKClose">Save</a>
             </div>
         </oj-dialog>
         <oj-button id="buttonOpener" data-bind="click: handleOpen">Settings</oj-button>
@@ -47,7 +112,7 @@
 
 
 
-<total-logs id="totalLogs"></total-logs>
+<total-logs id="totalLogs" data="{{logs}}"></total-logs>
 <modules-graph id="moduleGraph" data="{{logs}}"></modules-graph>
 <account-graph id="accountGraph" data="{{logs}}"></account-graph>
 <mobile-graph id="mobileGraph" data={{logs}}></mobile-graph>

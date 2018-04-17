@@ -5,7 +5,7 @@
 /*
  * Your dashboard ViewModel code goes here
  */
-define(['ojs/ojcore', 'knockout', 'jquery', 'serviceworker', 'ojs/ojknockout', 'ojs/ojbutton', 'ojs/ojdialog', 'ojs/ojdatetimepicker', 'ojs/ojvalidation-datetime', 'ojs/ojtimezonedata', 'ojs/ojlabel', 'ojs/ojmasonrylayout', 'jet-composites/modules-graph/loader', 'jet-composites/account-graph/loader', 'jet-composites/mobile-graph/loader', 'jet-composites/server-graph/loader', 'jet-composites/mobile-graph/loader', 'jet-composites/total-logs/loader'],
+define(['ojs/ojcore', 'knockout', 'jquery', 'serviceworker', 'ojs/ojknockout', 'ojs/ojselectcombobox', 'ojs/ojcheckboxset', 'ojs/ojbutton', 'ojs/ojdialog', 'ojs/ojdatetimepicker', 'ojs/ojvalidation-datetime', 'ojs/ojtimezonedata', 'ojs/ojlabel', 'ojs/ojmasonrylayout', 'jet-composites/modules-graph/loader', 'jet-composites/account-graph/loader', 'jet-composites/mobile-graph/loader', 'jet-composites/server-graph/loader', 'jet-composites/mobile-graph/loader', 'jet-composites/total-logs/loader'],
     function(oj, ko, $) {
 
         function DashboardViewModel() {
@@ -16,11 +16,22 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'serviceworker', 'ojs/ojknockout', '
             self.max = ko.observable((new Date().toISOString()));
 
             self.logs = ko.observableArray();
-            let retentionDays = { days: 10 };
+            let retentionDays = { days: 20 };
+            self.agreement = ko.observableArray();
+            self.noOfDays = ko.computed(function() {
+                let diff = Math.abs(new Date() - new Date(self.value()));
+
+                let days = diff / (1000 * 60 * 60 * 24);
+
+                return days.toFixed() + " days";
+            });
+
+            self.selectedServer = ko.observableArray(["CH"]);
 
             self.handleOpen = function() {
                 document.querySelector("#percentDialog").open();
             };
+
             self.handleOKClose = function() {
                 let diff = Math.abs(new Date() - new Date(self.value()));
 
@@ -67,7 +78,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'serviceworker', 'ojs/ojknockout', '
                     sizeClass: 'oj-masonrylayout-tile-3x1'
                 },
                 {
-                    name: 'logs',
+                    name: 'mobile',
                     sizeClass: 'oj-masonrylayout-tile-2x1'
                 },
                 {
@@ -83,7 +94,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'serviceworker', 'ojs/ojknockout', '
                     sizeClass: 'oj-masonrylayout-tile-4x2'
                 },
                 {
-                    name: 'mobile',
+                    name: 'logs',
                     sizeClass: 'oj-masonrylayout-tile-3x1'
                 }
             ];

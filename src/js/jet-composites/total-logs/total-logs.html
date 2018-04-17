@@ -2,9 +2,7 @@
 <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css'>
 
 <style>
-    total-logs {
-        background-color: rgb(97, 196, 230)
-    }
+    total-logs {}
     
     .dashbord {
         width: 100%;
@@ -12,7 +10,7 @@
         display: flex;
         justify-content: center;
         align-content: center;
-        border: 1px solid
+        /* border: 1px solid */
     }
     
     #head {
@@ -20,13 +18,47 @@
     }
 </style>
 
-<div class="dashborc">
-    <div class="oj-flex oj-flex-items-pad">
-        <div class="oj-sm-12 oj-md-12 oj-lg-8 oj-flex-item">
-            <h1>Logs</h1>
-        </div>
-        <div class="oj-sm-12 oj-md-6  oj-lg-2 oj-flex-item">
-            <h1>7</h1>
-        </div>
+<div class="dashbord">
+    <div id="gauge10" data-bind="ojComponent: {
+        component: 'ojStatusMeterGauge', 
+        min: 0, 
+        max: 100, 
+        value: logs, 
+        thresholds: thresholdValues,
+        orientation: 'circular',
+        plotArea: {rendered: 'on'},
+        metricLabel: {rendered: 'on'},
+        title: {text: 'Logs'},
+        readOnly: true,
+        referenceLines: 
+        [{value: 33, color:'yellow'}, 
+        {value: 67, color:'green'}],
+        }" style="align:center;
+        background-color: #fff;
+        margin-top:5px;
+        margin-bottom:5px;
+        height:110px;
+        width:50%;">
+    </div>
+    <div id="gauge10" data-bind="ojComponent: {
+        component: 'ojStatusMeterGauge', 
+        min: 0, 
+        max: 100, 
+        value: customers, 
+        thresholds: thresholdValues,
+        orientation: 'circular',
+        plotArea: {rendered: 'on'},
+        metricLabel: {rendered: 'on'},
+        title: {text: 'Customers'},
+        readOnly: true,
+        referenceLines: 
+        [{value: 33, color:'yellow'}, 
+        {value: 67, color:'green'}],
+        }" style="align:center;
+        background-color: #fff;
+        margin-top:5px;
+        margin-bottom:5px;
+        height:110px;
+        width:50%;">
     </div>
 </div>
