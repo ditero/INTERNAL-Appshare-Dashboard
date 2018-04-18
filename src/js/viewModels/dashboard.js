@@ -5,125 +5,88 @@
 /*
  * Your dashboard ViewModel code goes here
  */
-define(['ojs/ojcore', 'knockout', 'jquery', 'serviceworker', 'ojs/ojknockout', 'ojs/ojselectcombobox', 'ojs/ojcheckboxset', 'ojs/ojbutton', 'ojs/ojdialog', 'ojs/ojdatetimepicker', 'ojs/ojvalidation-datetime', 'ojs/ojtimezonedata', 'ojs/ojlabel', 'ojs/ojmasonrylayout', 'jet-composites/modules-graph/loader', 'jet-composites/account-graph/loader', 'jet-composites/mobile-graph/loader', 'jet-composites/server-graph/loader', 'jet-composites/mobile-graph/loader', 'jet-composites/total-logs/loader'],
+define(['ojs/ojcore', 'knockout', 'jquery', 'serviceworker', 'ojs/ojknockout', 'ojs/ojselectcombobox', 'ojs/ojmasonrylayout', 'jet-composites/modules-graph/loader', 'jet-composites/account-graph/loader', 'jet-composites/mobile-graph/loader', 'jet-composites/server-graph/loader', 'jet-composites/mobile-graph/loader', 'jet-composites/total-logs/loader'],
     function(oj, ko, $) {
 
         function DashboardViewModel() {
             var self = this;
             self.nowrap = ko.observable(false);
 
-            self.value = ko.observable(oj.IntlConverterUtils.dateToLocalIso(new Date()));
-            self.max = ko.observable((new Date().toISOString()));
+            /// REMOVED COMPONENT DATA BUT KEPT IN CASE NEEDED
+            // self.value = ko.observable(oj.IntlConverterUtils.dateToLocalIso(new Date()));
+            // self.max = ko.observable((new Date().toISOString()));
+
+            // let retentionDays = { days: 20 };
+            // self.agreement = ko.observableArray();
+            // self.noOfDays = ko.computed(function() {
+            //     let diff = Math.abs(new Date() - new Date(self.value()));
+
+            //     let days = diff / (1000 * 60 * 60 * 24);
+
+            //     return days.toFixed() + " days";
+            // });
+            ///////////////////////////////////////////////////
+
+            // Filter Functionality
+            self.val = ko.observable();
+            self.customers = ko.observableArray([]);
 
             self.logs = ko.observableArray();
-            let retentionDays = { days: 20 };
-            self.agreement = ko.observableArray();
-            self.noOfDays = ko.computed(function() {
-                let diff = Math.abs(new Date() - new Date(self.value()));
 
-                let days = diff / (1000 * 60 * 60 * 24);
+            var rawData = [];
 
-                return days.toFixed() + " days";
-            });
+            self.selectedValue = (event) => {
+                event.preventDefault();
+                let option = event.detail.value;
+                let filteredData = [];
 
-            self.selectedServer = ko.observableArray(["CH"]);
-
-            self.serverlist = ko.observableArray([
-                { value: 'Internet Explorer', label: 'Internet Explorer' },
-                { value: 'Firefox', label: 'Firefox' },
-                { value: 'Chrome', label: 'Chrome' },
-                { value: 'Opera', label: 'Opera' },
-                { value: 'Safari', label: 'Safari' }
-            ]);
-
-            self.handleOpen = function() {
-                document.querySelector("#percentDialog").open();
+                if (option) {
+                    if (option === "All Customers") {
+                        self.logs(rawData);
+                    } else {
+                        rawData.filter(log => {
+                            // console.log(log.appCustomer);
+                            if (log.appCustomer === option) {
+                                filteredData.push(log);
+                            };
+                        });
+                        self.logs(filteredData);
+                    }
+                };
             };
 
-            self.handleOKClose = function() {
-                let diff = Math.abs(new Date() - new Date(self.value()));
-
-                let days = diff / (1000 * 60 * 60 * 24);
-                let retentionDays = { days: days.toFixed() };
-
-                self.logs([])
-                serviceworker.getLogData("POST", "http://localhost:3001/readactivity", retentionDays).done((logs) => {
-                    self.logs(logs);
-                });
-
-                document.querySelector("#percentDialog").close();
-            };
-
-            self.handleCancel = function() {
-                document.querySelector("#percentDialog").close();
-            };
-
-
-            serviceworker.getLogData("POST", "http://localhost:3001/readactivity", retentionDays).done((logs) => {
+            serviceworker.getLogData("GET", "http://localhost:3001/readactivity").done((logs) => {
                 self.logs(logs);
-                let server = {};
-                // self.serverlist([]);
+                rawData = logs;
+                self.customers([]);
+                self.customers.push({ "value": "All Customers", "label": "All Customers", disabled: false });
+                let customerList = {};
 
-                // logs.forEach(log => {
-                //     if (server[log.server] === undefined) {
-                //         server["server"] = { value: log.server, label: log.server };
-                //     }
-                // });
-
-                // for (i in server) {
-                //     self.serverlist.push(server[i]);
-                // }
-
-                // console.log(self.serverlist())
-
-                self.serverlist.push({ value: 'Ace', label: 'Ace' });
+                self.logs().forEach(log => {
+                    if (customerList[log.appCustomer] === undefined) {
+                        customerList[log.appCustomer] = 1;
+                        self.customers.push({ "value": log.appCustomer, "label": log.appCustomer, disabled: false });
+                    };
+                });
             });
-
-
-
-
-
-
-            // let LogData = new Service('POST', '', retentionDays, 'application/json');
-
-
-            // self.logs = LogData.onLoadLogData();
-            // console.log(self.logs)
-
-            // self.logs() = logData.done(data => {
-            //     //filter for mobile
-            //     return data;
-            //     self.logs(data);
-            // });
-
-            // logData.fail(function(jqXHR, textStatus) {
-            //     alert("Request failed: " + textStatus);
-            // });
-
 
             self.chemicals = [{
+                    name: 'logs',
+                    sizeClass: 'oj-masonrylayout-tile-3x1'
+                }, {
                     name: 'mobile',
                     sizeClass: 'oj-masonrylayout-tile-3x1'
                 },
                 {
-                    name: 'mobile',
+                    name: 'filterData',
                     sizeClass: 'oj-masonrylayout-tile-2x1'
-                },
-                {
+                }, {
                     name: 'modules',
                     sizeClass: 'oj-masonrylayout-tile-4x3'
                 },
                 {
                     name: 'accounts',
                     sizeClass: 'oj-masonrylayout-tile-4x4'
-                },
-                {
-                    name: 'servers',
-                    sizeClass: 'oj-masonrylayout-tile-4x2'
-                },
-                {
-                    name: 'logs',
-                    sizeClass: 'oj-masonrylayout-tile-3x1'
                 }
             ];
 
@@ -135,7 +98,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'serviceworker', 'ojs/ojknockout', '
                 $('#modules').append($('#moduleGraph'));
                 $('#accounts').append($('#accountGraph'));
                 $('#mobile').append($('#mobileGraph'));
-                $('#servers').append($('#serverGraph'));
+                $('#filterData').append($('#filterCustomers'));
                 $("#logs").append($("#totalLogs"))
             };
         }

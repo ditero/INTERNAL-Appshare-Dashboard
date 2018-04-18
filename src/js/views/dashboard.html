@@ -9,90 +9,10 @@
     #masonryLayout {
         padding-left: 50px;
     }
-    
-    a.button7 {
-        width: 40%;
-        display: inline-block;
-        padding: 0.7em 0.2em;
-        margin: 0 0.3em 0.3em 0;
-        border-radius: 0.2em;
-        box-sizing: border-box;
-        text-decoration: none;
-        font-family: 'Roboto', sans-serif;
-        font-weight: 400;
-        color: #FFFFFF;
-        background-color: #3369ff;
-        box-shadow: inset 0 -0.6em 1em -0.35em rgba(0, 0, 0, 0.17), inset 0 0.6em 2em -0.3em rgba(255, 255, 255, 0.15), inset 0 0 0em 0.05em rgba(255, 255, 255, 0.12);
-        text-align: center;
-        position: relative;
-    }
-    
-    a.button7:active {
-        box-shadow: inset 0 0.6em 2em -0.3em rgba(0, 0, 0, 0.15), inset 0 0 0em 0.05em rgba(255, 255, 255, 0.12);
-    }
-    
-    a.button7:hover {
-        cursor: pointer;
-    }
 </style>
 
 
 <div class="container">
-    <div id="dialogWrapper">
-        <oj-dialog style="display:none;width: 50vw; height: 60vh;" id="percentDialog" title="Appshare User Settings" modality="modeless">
-            <div slot="body">
-                <div class="container">
-                    <div class="oj-sm-odd-cols-12 oj-md-odd-cols-4 oj-flex-items-pad">
-                        <div class="oj-flex-item">
-                            <div class="oj-form loginForm">
-
-                                <div class="oj-flex">
-                                    <div class="oj-flex-item">
-
-                                        <oj-label for="input">Retention Days</oj-label>
-                                    </div>
-                                </div>
-                                <div class="oj-flex">
-                                    <div class="oj-flex-item">
-                                        <oj-input-date id="minmax" onchange="[[calculateDays]]" value={{value}} min="[[oj.IntlConverterUtils.dateToLocalIso(new Date(2013, 10, 25))]]" max="{{max}}">
-                                        </oj-input-date>
-                                    </div>
-                                </div>
-                                <div class="oj-flex">
-                                    <div class="oj-flex-item">
-                                        <span data-bind="text: noOfDays"></span>
-                                    </div>
-                                </div>
-                                <hr>
-                                <div class="oj-flex ">
-                                    <div class="oj-flex-item ">
-                                        <oj-label for="input" label-id="inputgrouplabel">Delete Log By Server</oj-label>
-                                    </div>
-                                </div>
-                                <div class="oj-flex">
-                                    <div class="oj-flex-item">
-                                        <select id="basicSelect" data-bind="ojComponent: {component: 'ojSelect',
-                                            value: selectedServer,
-                                            rootAttributes: {style:'max-width:20em'}}">
-                                            <option data-bind="value: $data.label"></option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-            <div slot="footer">
-                <a id="okButton" class="button7" style="background-color: #a8a8a8" data-bind="click: handleCancel">Cancel</a>
-                <a id="okButton" class="button7" style="background-color:#2979FF" data-bind="click: handleOKClose">Save</a>
-            </div>
-        </oj-dialog>
-        <oj-button id="buttonOpener" data-bind="click: handleOpen">Settings</oj-button>
-    </div>
-
     <div class="demo-scroll-container">
         <oj-masonry-layout id="masonryLayout">
             <!-- ko foreach: chemicals -->
@@ -112,4 +32,16 @@
 <modules-graph id="moduleGraph" data="{{logs}}"></modules-graph>
 <account-graph id="accountGraph" data="{{logs}}"></account-graph>
 <mobile-graph id="mobileGraph" data={{logs}}></mobile-graph>
-<server-graph id="serverGraph"></server-graph>
+<!-- <server-graph id="serverGraph"></server-graph> -->
+
+<div id="filterCustomers">
+    <div id="containerDiv">
+        <oj-label for="basicSelect">Filter Data By Customer:</oj-label>
+        <oj-select-one id="customerOptions" options="[[customers]]" value="{{val}}" on-value-changed="[[selectedValue]]"></oj-select-one>
+        <div>
+            <br/>
+            <oj-label for="curr-value">Current data being filtered by: </oj-label>
+            <span id="curr-value" data-bind="text: val"></span>
+        </div>
+    </div>
+</div>

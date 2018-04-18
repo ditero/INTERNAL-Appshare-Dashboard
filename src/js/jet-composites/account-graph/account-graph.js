@@ -80,11 +80,26 @@ define(
                 };
 
                 const clearSearch = function(data, event) {
-                    self.filter('');
-                    self.dataprovider(new oj.ArrayDataProvider(self.logArray, { idAttribute: 'accountId' }));
-                    self.highlightChars = [];
-                    document.getElementById('filter').value = "";
-                    return true;
+                    try {
+                        self.filter('');
+                        self.dataprovider(new oj.ArrayDataProvider(self.logArray, { idAttribute: 'accountId' }));
+                        self.highlightChars = [];
+                        document.getElementById('filter').value = "";
+                        return true;
+                    } catch (error) {
+                        // console.log(error);
+                    }
+                };
+
+                const clearDefaultSearch = function(data, event) {
+                    try {
+                        self.filter('');
+                        self.highlightChars = [];
+                        document.getElementById('filter').value = "";
+                        return true;
+                    } catch (error) {
+                        // console.log(error);
+                    }
                 };
 
                 const cellRenderer = function(context) {
@@ -144,6 +159,7 @@ define(
                     initialiseTable,
                     filter,
                     clearSearch,
+                    clearDefaultSearch,
                     cellRenderer,
                     parseTableData
                 };
@@ -238,9 +254,11 @@ define(
 
                     setInterval(() => {
                         if (self.properties.data !== self.data()) {
+
                             AccountFunctions().initialiseTable(self.properties.data);
                             actionChart.initialiseChart(self.properties.data);
                             self.data(self.properties.data);
+                            AccountFunctions().clearDefaultSearch();
                         }
                     }, 1000)
                 }, 1000)
