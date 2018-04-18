@@ -1,0 +1,59 @@
+<style>
+    .circular-status-meter-common {
+        align: center;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        width: 45%;
+    }
+    
+    .circular-status-meter-large {
+        height: 100px;
+    }
+    
+    .circular-status-meter-small {
+        height: 50px;
+    }
+    
+    .gaugecontainer {
+        display: flex;
+        justify-content: center;
+        margin-top: -10px;
+    }
+    
+    #gauge8 {
+        margin-left: 70px;
+    }
+    
+    .optioncontainer {
+        width: 100%;
+    }
+    
+    #resetButton {
+        float: right;
+    }
+</style>
+
+<div class="optioncontainer">
+    <div class="optionSelect">
+
+        <div class="optionSelection">
+            <!-- <div class="oj-flex"> -->
+            <!-- <div class="oj-flex-item optioncontainer"> -->
+            <oj-select-one id="monthOptions" options="[[months]]" value="{{selectedVal}}" on-value-changed="[[selectedMonth]]">
+            </oj-select-one>
+            <oj-button id="resetButton" on-click='[[resetClick]]' display='icons' chroming='half'>
+                <span slot='startIcon' class='oj-fwk-icon oj-fwk-icon-cross03'></span> Clear
+            </oj-button>
+        </div>
+
+        <!-- </div> -->
+        <!-- </div> -->
+    </div>
+</div>
+
+<div class="gaugecontainer">
+    <div class="gauge">
+        <oj-status-meter-gauge id="gauge8" min="0" max="100" value="{{numberoflogs}}" readonly="true" start-angle="180" angle-extent="180" orientation="circular" class="circular-status-meter-common circular-status-meter-large">
+        </oj-status-meter-gauge>
+    </div>
+</div>

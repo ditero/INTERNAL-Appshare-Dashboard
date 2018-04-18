@@ -5,7 +5,7 @@
 /*
  * Your dashboard ViewModel code goes here
  */
-define(['ojs/ojcore', 'knockout', 'jquery', 'serviceworker', 'ojs/ojknockout', 'ojs/ojselectcombobox', 'ojs/ojmasonrylayout', 'jet-composites/modules-graph/loader', 'jet-composites/account-graph/loader', 'jet-composites/mobile-graph/loader', 'jet-composites/server-graph/loader', 'jet-composites/mobile-graph/loader', 'jet-composites/total-logs/loader'],
+define(['ojs/ojcore', 'knockout', 'jquery', 'serviceworker', 'ojs/ojknockout', 'ojs/ojselectcombobox', 'ojs/ojmasonrylayout', 'jet-composites/modules-graph/loader', 'jet-composites/account-graph/loader', 'jet-composites/mobile-graph/loader', 'jet-composites/log-dates/loader', 'jet-composites/mobile-graph/loader', 'jet-composites/total-logs/loader'],
     function(oj, ko, $) {
 
         function DashboardViewModel() {
@@ -79,7 +79,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'serviceworker', 'ojs/ojknockout', '
                     sizeClass: 'oj-masonrylayout-tile-3x1'
                 },
                 {
-                    name: 'filterData',
+                    name: 'logDates',
                     sizeClass: 'oj-masonrylayout-tile-2x1'
                 }, {
                     name: 'modules',
@@ -93,11 +93,11 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'serviceworker', 'ojs/ojknockout', '
 
             self.handleBindingsApplied = function(info) {
                 $('#modules').append($('#filterCustomers'));
-
                 $('#modules').append($('#moduleGraph'));
                 $('#accounts').append($('#accountGraph'));
                 $('#mobile').append($('#mobileGraph'));
-                $("#logs").append($("#totalLogs"))
+                $("#logs").append($("#totalLogs"));
+                $("#logDates").append($("#logDateGraph"));
             };
         }
 

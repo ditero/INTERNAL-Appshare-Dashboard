@@ -2,7 +2,8 @@
     #mobile,
     #module,
     #account,
-    #servers {
+    #servers,
+    #logDateGraph {
         overflow-y: scroll;
     }
     
@@ -32,7 +33,7 @@
 <modules-graph id="moduleGraph" data="{{logs}}"></modules-graph>
 <account-graph id="accountGraph" data="{{logs}}"></account-graph>
 <mobile-graph id="mobileGraph" data={{logs}}></mobile-graph>
-<!-- <server-graph id="serverGraph"></server-graph> -->
+<log-dates id="logDateGraph" data="{{logs}}"></log-dates>
 
 <div id="filterCustomers">
     <div id="containerDiv">
