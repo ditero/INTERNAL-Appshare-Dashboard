@@ -55,6 +55,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'serviceworker', 'ojs/ojknockout', '
                 };
             };
 
+            // retreiving data from backend service
             serviceworker.getLogData("GET", "http://localhost:3001/readactivity").done((logs) => {
                 self.logs(logs);
                 rawData = logs;
@@ -82,7 +83,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'serviceworker', 'ojs/ojknockout', '
                     sizeClass: 'oj-masonrylayout-tile-2x1'
                 }, {
                     name: 'modules',
-                    sizeClass: 'oj-masonrylayout-tile-4x3'
+                    sizeClass: 'oj-masonrylayout-tile-4x4'
                 },
                 {
                     name: 'accounts',
@@ -90,15 +91,12 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'serviceworker', 'ojs/ojknockout', '
                 }
             ];
 
-            // $(document).ready(() => {
-            //     $('#mobile').append("<mobile-graph></mobile-graph>");
-            // })
-
             self.handleBindingsApplied = function(info) {
+                $('#modules').append($('#filterCustomers'));
+
                 $('#modules').append($('#moduleGraph'));
                 $('#accounts').append($('#accountGraph'));
                 $('#mobile').append($('#mobileGraph'));
-                $('#filterData').append($('#filterCustomers'));
                 $("#logs").append($("#totalLogs"))
             };
         }
