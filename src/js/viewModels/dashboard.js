@@ -1,18 +1,11 @@
-/**
- * Copyright (c) 2014, 2018, Oracle and/or its affiliates.
- * The Universal Permissive License (UPL), Version 1.0
- */
-/*
- * Your dashboard ViewModel code goes here
- */
-define(['ojs/ojcore', 'knockout', 'jquery', 'serviceworker', 'ojs/ojknockout', 'ojs/ojselectcombobox', 'ojs/ojmasonrylayout', 'jet-composites/modules-graph/loader', 'jet-composites/account-graph/loader', 'jet-composites/mobile-graph/loader', 'jet-composites/log-dates/loader', 'jet-composites/mobile-graph/loader', 'jet-composites/total-logs/loader'],
+define(['ojs/ojcore', 'knockout', 'jquery', 'serviceworker', 'ojs/ojknockout', 'ojs/ojlabel', 'ojs/ojformlayout', 'ojs/ojselectcombobox', 'ojs/ojmasonrylayout', 'jet-composites/modules-graph/loader', 'jet-composites/account-graph/loader', 'jet-composites/mobile-graph/loader', 'jet-composites/log-dates/loader', 'jet-composites/mobile-graph/loader', 'jet-composites/total-logs/loader'],
     function(oj, ko, $) {
 
         function DashboardViewModel() {
             var self = this;
             self.nowrap = ko.observable(false);
 
-            /// REMOVED COMPONENT DATA BUT KEPT IN CASE NEEDED
+            /// REMOVED COMPONENT DATA BUT KEPT IN CASE NEEDED ///
             // self.value = ko.observable(oj.IntlConverterUtils.dateToLocalIso(new Date()));
             // self.max = ko.observable((new Date().toISOString()));
 
@@ -27,12 +20,19 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'serviceworker', 'ojs/ojknockout', '
             // });
             ///////////////////////////////////////////////////
 
+            self.isSmall = oj.ResponsiveKnockoutUtils.createMediaQueryObservable(
+                oj.ResponsiveUtils.getFrameworkQuery(oj.ResponsiveUtils.FRAMEWORK_QUERY_KEY.SM_ONLY));
+
+            // For small screens: labels on top
+            // For medium screens and up: labels inline
+            self.labelEdge = ko.computed(function() {
+                return this.isSmall() ? "top" : "start";
+            }, this);
+
             // Filter Functionality
             self.val = ko.observable();
             self.customers = ko.observableArray([]);
-
             self.logs = ko.observableArray();
-
             var rawData = [];
 
             self.selectedValue = (event) => {
@@ -51,7 +51,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'serviceworker', 'ojs/ojknockout', '
                             };
                         });
                         self.logs(filteredData);
-                    }
+                    };
                 };
             };
 
@@ -99,9 +99,6 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'serviceworker', 'ojs/ojknockout', '
                 $("#logs").append($("#totalLogs"));
                 $("#logDates").append($("#logDateGraph"));
             };
-        }
-
-
+        };
         return new DashboardViewModel();
-    }
-);
+    });

@@ -62,7 +62,6 @@ define(
                     let month = new Date(log.datetime).getMonth();
                     let currentMonth = self.months[month].value;
 
-                    // console.log(currentMonth);
                     if (self.months[month].value === currentMonth) {
                         self.months[month].logs += 1;
                     };
@@ -76,7 +75,6 @@ define(
             };
 
             function updateGauge(cmonth) {
-
                 let currentlog = self.months.filter(month => {
                     if (month.value === cmonth) {
                         return month.logs;

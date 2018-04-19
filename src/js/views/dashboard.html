@@ -1,18 +1,16 @@
 <style>
-    #mobile,
-    #module,
-    #account,
-    #servers,
-    #logDateGraph {
-        overflow-y: scroll;
+    #containerDiv {
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
     
-    #masonryLayout {
-        padding-left: 50px;
+    .filterContainer {
+        /* border: 1px solid red; */
+        width: 100%;
+        margin-left: 100px;
     }
 </style>
-
-
 <div class="container">
     <div class="demo-scroll-container">
         <oj-masonry-layout id="masonryLayout">
@@ -23,12 +21,6 @@
     </div>
 </div>
 
-
-</div>
-
-
-
-
 <total-logs id="totalLogs" data="{{logs}}"></total-logs>
 <modules-graph id="moduleGraph" data="{{logs}}"></modules-graph>
 <account-graph id="accountGraph" data="{{logs}}"></account-graph>
@@ -36,13 +28,19 @@
 <log-dates id="logDateGraph" data="{{logs}}"></log-dates>
 
 <div id="filterCustomers">
+    <div id="title">
+        <h1>Filter Data</h1>
+    </div>
     <div id="containerDiv">
-        <oj-label for="basicSelect">Filter Data By Customer:</oj-label>
-        <oj-select-one id="customerOptions" options="[[customers]]" value="{{val}}" on-value-changed="[[selectedValue]]"></oj-select-one>
-        <div>
-            <br/>
-            <oj-label for="curr-value">Current data being filtered by: </oj-label>
-            <span id="curr-value" data-bind="text: val"></span>
+        <div class="filterContainer">
+            <div id="form-container">
+                <oj-form-layout label-edge="{{labelEdge}}">
+                    <oj-select-one id="customerOptions" options="[[customers]]" label-hint="Filter By Customer:" value="{{val}}" on-value-changed="[[selectedValue]]" style="width:100%; margin-left:19px;"></oj-select-one>
+                    <oj-input-text id="control3" value="{{val}}" label-hint="Currently Filtered By:" disabled></oj-input-text>
+                </oj-form-layout>
+            </div>
         </div>
     </div>
+    <br>
+    <hr>
 </div>
