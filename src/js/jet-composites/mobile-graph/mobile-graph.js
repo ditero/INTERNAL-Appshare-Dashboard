@@ -11,9 +11,6 @@ define(
             var self = this;
             self.composite = context.element;
 
-            let days = { days: 10 };
-
-
             self.pictoChartItems = ko.observableArray([]);
             self.difference = ko.observable("");
             self.finding = ko.observable("");
@@ -77,7 +74,7 @@ define(
                                 new PictoChartModel(self.properties.data);
                             }
                         }, 1000)
-                    }, 1000)
+                    }, 1000);
 
                 }
             });

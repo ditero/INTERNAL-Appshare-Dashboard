@@ -10,8 +10,8 @@
 }
 
 #mobile,
-#module,
-#account,
+#modules,
+#accounts,
 #servers,
 #logDateGraph {
     overflow-y: scroll;
@@ -22,24 +22,24 @@
 }
 
 #mobile::-webkit-scrollbar,
-#module::-webkit-scrollbar,
-#account::-webkit-scrollbar,
+#modules::-webkit-scrollbar,
+#accounts::-webkit-scrollbar,
 #servers::-webkit-scrollbar,
 #logDateGraph::-webkit-scrollbar {
     width: 10px;
 }
 
 #mobile::-webkit-scrollbar-track,
-#module::-webkit-scrollbar-track,
-#account::-webkit-scrollbar-track,
+#modules::-webkit-scrollbar-track,
+#accounts::-webkit-scrollbar-track,
 #servers::-webkit-scrollbar-track,
 #logDateGraph::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
 
 #mobile::-webkit-scrollbar-thumb,
-#module::-webkit-scrollbar-thumb,
-#account::-webkit-scrollbar-thumb,
+#modules::-webkit-scrollbar-thumb,
+#accounts::-webkit-scrollbar-thumb,
 #servers::-webkit-scrollbar-thumb,
 #logDateGraph::-webkit-scrollbar-thumb {
     background-color: darkgrey;
@@ -509,13 +509,13 @@ to be restricted to a multiple of the column width
 
 @media (min-width: 338px) {
     .demo-masonry-layout.demo-custom-tile-sizes-3 {
-        width: 318px;
+        width: 308px;
     }
 }
 
 @media (min-width: 660px) {
     .demo-masonry-layout {
-        width: 640px;
+        width: 540px;
     }
 }
 

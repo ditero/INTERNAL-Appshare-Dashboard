@@ -17,16 +17,23 @@ define(
             self.thresholdValues = [{ max: 33 }, { max: 67 }, {}];
 
             function initialiseGauge(data) {
-                let totalLogs = Number(data.length)
+                let totalLogs = Number(data.length);
                 self.logs(totalLogs);
 
-                let customers = data.filter((log) => {
-                    if (log.appCustomer) {
-                        return log;
+                let appCustomers = {};
+
+                data.forEach((log) => {
+                    if (appCustomers[log.appCustomer] == undefined) {
+                        appCustomers[log.appCustomer] = 1;
                     };
                 });
 
-                let totalCustomers = Number(customers.length);
+                var totalCustomers = 0;
+                for (var customer in appCustomers) {
+                    if (appCustomers.hasOwnProperty(customer)) {
+                        ++totalCustomers;
+                    };
+                };
 
                 self.customers(totalCustomers);
             };

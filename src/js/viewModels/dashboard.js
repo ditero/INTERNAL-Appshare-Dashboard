@@ -56,7 +56,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'serviceworker', 'ojs/ojknockout', '
             };
 
             // retreiving data from backend service
-            serviceworker.getLogData("GET", "http://localhost:3001/readactivity").done((logs) => {
+            serviceworker.getLogData("GET", "http://appsharebackend.steltix.com/readactivity").done((logs) => {
                 self.logs(logs);
                 rawData = logs;
                 self.customers([]);

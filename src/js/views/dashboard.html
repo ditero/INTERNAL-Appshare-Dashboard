@@ -10,10 +10,64 @@
         width: 100%;
         margin-left: 100px;
     }
+    
+    .filterCustomers {
+        clear: both;
+    }
+    
+    #customerOptions {
+        width: 100%;
+        margin-left: 19px;
+    }
+    
+    @media (max-width: 360px) {
+        #containerDiv {
+            display: inline;
+        }
+        .filterContainer {
+            width: 100%;
+            margin-left: 8px;
+        }
+        #customerOptions {
+            margin-left: 24px;
+        }
+        #logs,
+        #mobile,
+        #modules,
+        #accounts {
+            width: 328px;
+        }
+        #logDates {
+            width: 325px;
+        }
+        #masonryLayout {
+            padding-left: 0px;
+        }
+    }
+    
+    @media (max-height: 360px) {
+        #logs,
+        #modules,
+        #accounts {
+            width: 605px;
+        }
+        #logDates {
+            width: 605px;
+        }
+        #masonryLayout {
+            padding-left: 0px;
+        }
+        #mobile {
+            display: none;
+        }
+        #customerOptions {
+            margin-left: 109px;
+        }
+    }
 </style>
 <div class="container">
     <div class="demo-scroll-container">
-        <oj-masonry-layout id="masonryLayout">
+        <oj-masonry-layout id="masonryLayout" class="oj-flex">
             <!-- ko foreach: chemicals -->
             <div class="oj-panel demo-tile" data-bind="css: sizeClass, attr:{id: name}"></div>
             <!-- /ko -->
@@ -29,13 +83,13 @@
 
 <div id="filterCustomers">
     <div id="title">
-        <h1>Filter Data</h1>
+        <h1>Appshare Logs</h1>
     </div>
     <div id="containerDiv">
         <div class="filterContainer">
             <div id="form-container">
                 <oj-form-layout label-edge="{{labelEdge}}">
-                    <oj-select-one id="customerOptions" options="[[customers]]" label-hint="Filter By Customer:" value="{{val}}" on-value-changed="[[selectedValue]]" style="width:100%; margin-left:19px;"></oj-select-one>
+                    <oj-select-one id="customerOptions" options="[[customers]]" label-hint="Filter By Customer:" value="{{val}}" on-value-changed="[[selectedValue]]"></oj-select-one>
                     <oj-input-text id="control3" value="{{val}}" label-hint="Currently Filtered By:" disabled></oj-input-text>
                 </oj-form-layout>
             </div>

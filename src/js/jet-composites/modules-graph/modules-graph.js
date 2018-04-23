@@ -9,7 +9,16 @@ define(
 
             self.stackValue = ko.observable('off');
 
-            self.orientationValue = ko.observable('vertical');
+            self.orientationValue = ko.observable("vertical");
+
+            self.isHorizontal = ko.observableArray([]);
+            self.changeChartOrientation = ko.computed(function() {
+                if (self.isHorizontal()[0] == 'Horizontal') {
+                    self.orientationValue('horizontal');
+                } else {
+                    self.orientationValue('vertical');
+                };
+            }, this);
 
             /* chart data */
             var barSeries = [];
@@ -21,20 +30,17 @@ define(
             self.barSeriesValue = ko.observableArray(barSeries);
             self.barGroupsValue = ko.observableArray(barGroups);
 
-
-
-            // modules.done((data) => {
             function ProccessGraph(data) {
                 let moduleNames = {};
-                let modules = [];
                 barSeries = [];
 
-                data.forEach(element => {
-
-                    if (moduleNames[element.moduleDescription] === undefined) {
-                        moduleNames[element.moduleDescription] = 1;
-                    } else {
-                        moduleNames[element.moduleDescription] += 1;
+                data.forEach(log => {
+                    if (log.module !== "00000") {
+                        if (moduleNames[log.moduleDescription] === undefined) {
+                            moduleNames[log.moduleDescription] = 1;
+                        } else {
+                            moduleNames[log.moduleDescription] += 1;
+                        };
                     };
                 });
 
