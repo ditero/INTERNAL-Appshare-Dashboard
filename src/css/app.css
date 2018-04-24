@@ -9,7 +9,6 @@
     justify-content: center;
 }
 
-#mobile,
 #modules,
 #accounts,
 #servers,
@@ -21,7 +20,6 @@
     padding-left: 50px;
 }
 
-#mobile::-webkit-scrollbar,
 #modules::-webkit-scrollbar,
 #accounts::-webkit-scrollbar,
 #servers::-webkit-scrollbar,
@@ -29,7 +27,6 @@
     width: 10px;
 }
 
-#mobile::-webkit-scrollbar-track,
 #modules::-webkit-scrollbar-track,
 #accounts::-webkit-scrollbar-track,
 #servers::-webkit-scrollbar-track,
@@ -37,7 +34,6 @@
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
 
-#mobile::-webkit-scrollbar-thumb,
 #modules::-webkit-scrollbar-thumb,
 #accounts::-webkit-scrollbar-thumb,
 #servers::-webkit-scrollbar-thumb,

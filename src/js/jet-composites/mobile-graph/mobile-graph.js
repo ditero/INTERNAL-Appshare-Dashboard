@@ -3,7 +3,7 @@
   The Universal Permissive License (UPL), Version 1.0
 */
 define(
-    ['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojknockout', 'ojs/ojpictochart', 'serviceworker'],
+    ['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojknockout', 'ojs/ojpictochart', 'ojs/ojlegend', 'serviceworker'],
     function(oj, ko, $) {
         'use strict';
 
@@ -11,13 +11,13 @@ define(
             var self = this;
             self.composite = context.element;
 
-            self.pictoChartItems = ko.observableArray([]);
+            self.legendSections = ko.observableArray();
+
             self.difference = ko.observable("");
             self.finding = ko.observable("");
 
-            function PictoChartModel(data) {
-                self.pictoChartItems([]);
-
+            function MobileChartView(data) {
+                self.legendSections([])
 
                 let totalDesktopDevices = data.filter(log => {
                     if (log.mobile === false) {
@@ -31,15 +31,19 @@ define(
                     };
                 });
 
-                let desktops = { name: 'Logged In With Desktop', shape: 'human', count: totalDesktopDevices.length, color: '#2e2be2' };
-                let mobiles = { name: 'Logged In With Mobile', shape: 'human', count: totalMobileDevices.length };
-
-                self.pictoChartItems.push(desktops);
-                self.pictoChartItems.push(mobiles);
 
                 let totalLogs = data.length;
+
                 let totalDesktops = Number(totalLogs) - Number(totalMobileDevices.length);
 
+                let totalMobile = Number(totalLogs) - Number(totalDesktops);
+
+                self.legendSections([{
+                    items: [
+                        { text: `${totalDesktops} Desktops`, color: "#267db3", markerShape: "human" },
+                        { text: `${totalMobile} Mobile`, color: "#68c182", markerShape: "human" }
+                    ]
+                }]);
 
                 let stat = `${totalDesktops} out of ${totalLogs} jde users`;
                 let find = "logged in on desktops.";
@@ -56,22 +60,17 @@ define(
                 //Store a reference to the properties for any later use
                 self.properties = propertyMap;
 
-
-
                 //Parse your component properties here 
                 if (self.properties) {
 
-                    // console.log(self.properties.data);
-
-                    // console.log(self.properties)
                     setTimeout(() => {
-                        new PictoChartModel(self.properties.data);
+                        new MobileChartView(self.properties.data);
                         self.data(self.properties.data);
 
                         setInterval(() => {
                             if (self.properties.data !== self.data()) {
                                 self.data(self.properties.data);
-                                new PictoChartModel(self.properties.data);
+                                new MobileChartView(self.properties.data);
                             }
                         }, 1000)
                     }, 1000);
