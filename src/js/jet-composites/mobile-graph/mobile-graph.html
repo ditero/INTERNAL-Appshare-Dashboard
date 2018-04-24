@@ -1,9 +1,19 @@
+<style>
+    #picto-container {
+        border: 1px solid red;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+</style>
 <div id="picto-container">
     <div style="display:inline-block; vertical-align:center; font-weight:bold">
         <span style="color:#333333; font-size:1.1em" data-bind="text: difference"></span><br>
         <span style="color:#2e2be2; font-size:1.3em" data-bind="text: finding"></span>
     </div>
 
-    <oj-picto-chart id='pictochart1' items="[[pictoChartItems]]" animation-on-display="auto" column-count="8" style="vertical-align:bottom; margin-right:14px">
-    </oj-picto-chart>
+    <!-- <oj-picto-chart id='pictochart1' items="[[pictoChartItems]]" animation-on-display="auto" column-count="8" style="vertical-align:bottom; margin-right:14px">
+    </oj-picto-chart> -->
 </div>
