@@ -31,6 +31,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'serviceworker', 'ojs/ojknockout', '
 
             // Filter Functionality
             self.val = ko.observable();
+            self.isDisabled = ko.observable(false);
             self.customers = ko.observableArray([]);
             self.logs = ko.observableArray();
             var rawData = [];
@@ -38,20 +39,14 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'serviceworker', 'ojs/ojknockout', '
             self.selectedValue = (event) => {
                 event.preventDefault();
                 let option = event.detail.value;
-                let filteredData = [];
 
-                if (option) {
-                    if (option === "All Customers") {
-                        self.logs(rawData);
-                    } else {
-                        rawData.filter(log => {
-                            // console.log(log.appCustomer);
-                            if (log.appCustomer === option) {
-                                filteredData.push(log);
-                            };
-                        });
-                        self.logs(filteredData);
-                    };
+                // check if param exist in url
+                let url = new URL(window.location);
+
+                if (url["search"]) {
+                    getParams(url["search"]);
+                } else {
+                    customerFilter(option);
                 };
             };
 
@@ -69,16 +64,48 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'serviceworker', 'ojs/ojknockout', '
                         self.customers.push({ "value": log.appCustomer, "label": log.appCustomer, disabled: false });
                     };
                 });
-
-                // check if param exist in url
-                let url = new URL(window.location);
-                console.log(url.search);
             });
 
+            const getParams = (url) => {
+                let urlSplit = url.split("=");
+                let customer = urlSplit[1].replace(/%20/g, " ");
+
+                urlFilter(customer);
+            };
+
             // URL Customer Filter
-            const urlFilter = (url) => {
+            const urlFilter = (customer) => {
+                customerFilter(customer, true);
+            };
+
+            const customerFilter = (customerOption, queryDetected = false) => {
+                let filteredData = [];
+
+                if (customerOption) {
+                    let customer = customerOption.toLowerCase();
+                    if (customer === "all customers") {
+                        self.logs(rawData);
+                    } else {
+                        rawData.filter(log => {
+                            if (log.appCustomer.toLowerCase() === customer) {
+                                filteredData.push(log);
+                            };
+                        });
+                        self.logs(filteredData);
+                    };
+                };
+
+                try {
+                    if (queryDetected) {
+                        self.val(filteredData[0]["appCustomer"]);
+                        self.isDisabled(true);
+                    };
+                } catch (error) {
+                    console.log("No Data Found");
+                }
 
             };
+
 
             self.chemicals = [{
                     name: 'logs',

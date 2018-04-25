@@ -88,7 +88,7 @@
         <div class="filterContainer">
             <div id="form-container">
                 <oj-form-layout label-edge="{{labelEdge}}">
-                    <oj-select-one id="customerOptions" options="[[customers]]" label-hint="Filter By Customer:" value="{{val}}" on-value-changed="[[selectedValue]]"></oj-select-one>
+                    <oj-select-one id="customerOptions" options="[[customers]]" label-hint="Filter By Customer:" value="{{val}}" on-value-changed="[[selectedValue]]" disabled="{{isDisabled}}"></oj-select-one>
                     <oj-input-text id="control3" value="{{val}}" label-hint="Currently Filtered By:" disabled></oj-input-text>
                 </oj-form-layout>
             </div>
