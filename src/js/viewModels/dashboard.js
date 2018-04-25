@@ -69,7 +69,16 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'serviceworker', 'ojs/ojknockout', '
                         self.customers.push({ "value": log.appCustomer, "label": log.appCustomer, disabled: false });
                     };
                 });
+
+                // check if param exist in url
+                let url = new URL(window.location);
+                console.log(url.search);
             });
+
+            // URL Customer Filter
+            const urlFilter = (url) => {
+
+            };
 
             self.chemicals = [{
                     name: 'logs',
