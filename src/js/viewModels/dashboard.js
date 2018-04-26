@@ -32,7 +32,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'serviceworker', 'ojs/ojknockout', '
             // Filter Functionality
             self.val = ko.observable();
             self.isDisabled = ko.observable(false);
-            self.customers = ko.observableArray([]);
+            self.accounts = ko.observableArray([]);
             self.logs = ko.observableArray();
             var rawData = [];
 
@@ -46,48 +46,57 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'serviceworker', 'ojs/ojknockout', '
                 if (url["search"]) {
                     getParams(url["search"]);
                 } else {
-                    customerFilter(option);
+                    accountFilter(option);
                 };
             };
 
             // retreiving data from backend service
-            serviceworker.getLogData("GET", "http://localhost:3001/readactivity").done((logs) => {
+            serviceworker.getLogData("GET", "//appsharebackend.steltix.com/readactivity").done((logs) => {
                 self.logs(logs);
                 rawData = logs;
-                self.customers([]);
-                self.customers.push({ "value": "All Customers", "label": "All Customers", disabled: false });
-                let customerList = {};
+                self.accounts([]);
+                self.accounts.push({ "value": "All Accounts", "label": "All Accounts", disabled: false });
+                let accountList = {};
 
                 self.logs().forEach(log => {
-                    if (customerList[log.appCustomer] === undefined) {
-                        customerList[log.appCustomer] = 1;
-                        self.customers.push({ "value": log.appCustomer, "label": log.appCustomer, disabled: false });
+                    if (accountList[log.account] === undefined) {
+                        if (log.account !== "") {
+                            accountList[log.account] = 1;
+                            let fChar = log.account.substring(1, 0).toUpperCase();
+                            let oChar = log.account.slice(1);
+                            self.accounts.push({ "value": fChar + oChar, "label": fChar + oChar, disabled: false });
+                        };
                     };
                 });
             });
 
             const getParams = (url) => {
-                let urlSplit = url.split("=");
-                let customer = urlSplit[1].replace(/%20/g, " ");
+                try {
+                    let urlSplit = url.split("=");
+                    let account = urlSplit[1].replace(/%20/g, " ");
 
-                urlFilter(customer);
+                    urlFilter(account);
+                } catch (error) {
+                    console.log('Detected Blank Params');
+                    urlFilter("");
+                };
             };
 
             // URL Customer Filter
-            const urlFilter = (customer) => {
-                customerFilter(customer, true);
+            const urlFilter = (account) => {
+                accountFilter(account, true);
             };
 
-            const customerFilter = (customerOption, queryDetected = false) => {
+            const accountFilter = (accountOption, queryDetected = false) => {
                 let filteredData = [];
 
-                if (customerOption) {
-                    let customer = customerOption.toLowerCase();
-                    if (customer === "all customers") {
+                if (accountOption) {
+                    let account = accountOption.toLowerCase();
+                    if (account === "all accounts") {
                         self.logs(rawData);
                     } else {
                         rawData.filter(log => {
-                            if (log.appCustomer.toLowerCase() === customer) {
+                            if (log.account.toLowerCase() === account) {
                                 filteredData.push(log);
                             };
                         });
@@ -97,7 +106,9 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'serviceworker', 'ojs/ojknockout', '
 
                 try {
                     if (queryDetected) {
-                        self.val(filteredData[0]["appCustomer"]);
+                        let fChar = filteredData[0]["account"].substring(1, 0).toUpperCase();
+                        let oChar = filteredData[0]["account"].slice(1);
+                        self.val(fChar + oChar);
                         self.isDisabled(true);
                     };
                 } catch (error) {
@@ -138,3 +149,4 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'serviceworker', 'ojs/ojknockout', '
         };
         return new DashboardViewModel();
     });
+''
