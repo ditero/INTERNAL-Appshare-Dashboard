@@ -13,9 +13,6 @@ define(
 
             self.legendSections = ko.observableArray();
 
-            self.difference = ko.observable("");
-            self.finding = ko.observable("");
-
             function MobileChartView(data) {
                 self.legendSections([])
 
@@ -44,12 +41,6 @@ define(
                         { text: `${totalMobile} Mobile`, color: "#68c182", markerShape: "human" }
                     ]
                 }]);
-
-                let stat = `${totalDesktops} out of ${totalLogs} jde users`;
-                let find = "logged in on desktops.";
-
-                self.difference(stat);
-                self.finding(find);
             };
 
 

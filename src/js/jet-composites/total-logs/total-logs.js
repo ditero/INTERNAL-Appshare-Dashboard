@@ -27,15 +27,6 @@ define(
                         appCustomers[log.appCustomer] = 1;
                     };
                 });
-
-                var totalCustomers = 0;
-                for (var customer in appCustomers) {
-                    if (appCustomers.hasOwnProperty(customer)) {
-                        ++totalCustomers;
-                    };
-                };
-
-                self.customers(totalCustomers);
             };
 
             context.props.then(function(propertyMap) {
