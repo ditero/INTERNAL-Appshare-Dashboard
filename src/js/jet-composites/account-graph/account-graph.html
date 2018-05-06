@@ -1,9 +1,34 @@
+<style>
+    .label-export {
+        padding-left: 0px;
+    }
+    
+    .demo-icon-font {
+        padding-right: 0px;
+        border: 1px soid red;
+    }
+
+    .offGrid {
+     display: none;
+    }
+</style>
 <div class="container">
     <div id="title">
         <h1>Accounts</h1>
     </div>
 
-    <hr>
+    <oj-button display='icons' on-click="[[exportFile]]">
+        <span title=".demo-download-icon-16" role="img" class="demo-download-icon-24 demo-icon-font"></span>
+        <span class="label-export">
+            Export To Excel
+        </span>
+    </oj-button>
+    <br>
+    <br>
+     
+    <oj-table id='accounttable' aria-label='Departments Table' data='[[dataprovider]]' scroll-policy='loadMoreOnScroll' columns-default.sortable='disabled' columns='{{columnArray}}' style='width:100%; height: 200px; border: none'>
+    </oj-table>
+    <br>
     <br style="clear: left;" />
 
     <oj-chart id="pieChart" type="pie" series="[[pieSeriesValue]]" animation-on-display="auto" animation-on-data-change="auto" hidden-categories='{{hiddenCategories}}' style-defaults.data-label-position="[[dataLabelPositionValue]]" style="max-width:500px;width:100%;height:270px;">

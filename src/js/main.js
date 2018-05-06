@@ -30,6 +30,11 @@ requirejs.config({
         'customElements': 'libs/webcomponents/custom-elements.min',
         'proj4': 'libs/proj4js/dist/proj4-src',
         'css': 'libs/require-css/css',
+        'moment': 'libs/moment/min/moment.min',
+        'helper': 'tableToExcel/e2',
+        'jszip': 'libs/xlsx/dist/jszip',
+        'xlsx': 'libs/xlsx/dist/xlsx.full.min',
+        'filesaver': 'libs/file-saver/FileSaver.min',
         'serviceworker': 'data-service/service-worker',
         'AccountsTableRender': 'component-processes/AccountsTableRender'
     }
