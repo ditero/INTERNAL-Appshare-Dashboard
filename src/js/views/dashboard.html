@@ -23,7 +23,9 @@
                 <br>
                 <oj-label for="date">Select Day: </oj-label>
                 <hr>
-                <oj-input-date id="date" value='{{dayValue}}' on-value-changed="[[selectedDay]]"></oj-input-date>
+                <oj-input-date id="date" value='{{dayValue}}' on-value-changed="[[selectedDay]]"   converter= '{
+                    "type":"datetime", 
+                    "options": {"year": "numeric", "month": "long", "day": "numeric"}}'></oj-input-date>
                 <oj-button id="clearButton" on-click='[[clearDayFilter]]' display='icons' chroming='half'>
                         <span slot='startIcon' class='oj-fwk-icon oj-fwk-icon-cross03'></span> Clear
                     </oj-button>
