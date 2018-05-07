@@ -16,14 +16,13 @@
               <div style= "height:100%; margin-bottom:10px" class="oj-sm-12 oj-md-4  oj-lg-4 oj-flex-item"><mobile-graph data={{logs}}></mobile-graph></div>
               <div style= "height:100%; margin-bottom:10px" class="oj-sm-12 oj-md-4  oj-lg-4 oj-flex-item"> 
                 <!-- log dates -->
-                <oj-label for="date">InputDate</oj-label>
-                <oj-input-date id="date" value='{{value}}'>
+                <br>
+                <oj-label for="date">Select Day: </oj-label>
+                <hr>
+                <oj-input-date id="date" value='{{dayValue}}' on-value-changed="[[selectedDay]]">
                 </oj-input-date>
                 
                 <br/><br/>
-                 
-                <span class="oj-label">Current component value is: </span>
-                <span data-bind="text: value"></span>   
                 <!-- end of log dates -->
               </div>
               <div style= "height:100%; margin-bottom:10px" class="oj-sm-12 oj-md-12  oj-lg-6 oj-flex-item">

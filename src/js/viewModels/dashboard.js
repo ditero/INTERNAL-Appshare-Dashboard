@@ -21,9 +21,18 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'serviceworker', 'ojs/ojknockout', '
             ///////////////////////////////////////////////////
 
             ///   LOG DATE
-            this.value = ko.observable(oj.IntlConverterUtils.dateToLocalIso(new Date()));
-            this.datePicker = {
-              weekDisplay: 'number'
+            self.dayValue = ko.observable(oj.IntlConverterUtils.dateToLocalIso(new Date()));
+            let counter = 0;
+            self.selectedDay = (event) => {
+                event.preventDefault();
+                if (counter > 0) {
+                    let date = event.detail.value;
+                    let modifiedDate = new Date(date).toLocaleDateString();
+
+                    // call filter function 
+                    dateFilter(modifiedDate);
+                };
+                counter++;
             };
             ////////////////////
 
@@ -124,35 +133,25 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'serviceworker', 'ojs/ojknockout', '
 
             };
 
+            const dateFilter = (dateOption) => {
+                let filteredData = [];
 
-            // self.chemicals = [{
-            //         name: 'logs',
-            //         sizeClass: 'oj-masonrylayout-tile-3x1 oj-flex-item'
-            //     }, {
-            //         name: 'mobile',
-            //         sizeClass: 'oj-masonrylayout-tile-3x1 oj-flex-item'
-            //     },
-            //     {
-            //         name: 'logDates',
-            //         sizeClass: 'oj-masonrylayout-tile-2x1 oj-flex-item'
-            //     }, {
-            //         name: 'modules',
-            //         sizeClass: 'oj-masonrylayout-tile-4x4 oj-flex-item'
-            //     },
-            //     {
-            //         name: 'accounts',
-            //         sizeClass: 'oj-masonrylayout-tile-4x4 oj-flex-item'
-            //     }
-            // ];
-
-            // self.handleBindingsApplied = function(info) {
-            //     $('#modules').append($('#filterCustomers'));
-            //     $('#modules').append($('#moduleGraph'));
-            //     $('#accounts').append($('#accountGraph'));
-            //     $('#mobile').append($('#mobileGraph'));
-            //     $("#logs").append($("#totalLogs"));
-            //     $("#logDates").append($("#logDateGraph"));
-            // };
+                if (dateOption) {
+                    let date = dateOption;
+                    if (date === "all days") {
+                        self.logs(rawData);
+                    } else {
+                        rawData.filter(log => {
+                            let logDate = log.datetime;
+                            let modifiedLogDate = new Date(logDate).toLocaleDateString();
+                            if (modifiedLogDate === date) {
+                                filteredData.push(log);
+                            };
+                        });
+                        self.logs(filteredData);
+                    };
+                };
+            };
         };
         return new DashboardViewModel();
     });
