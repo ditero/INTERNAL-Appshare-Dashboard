@@ -1,15 +1,15 @@
 .oj-flex-item {
     border: 1px solid white;
     background-color: white;
-    margin-left: 10px;
-    margin-bottom: 10px;
-    box-shadow: 1px 2px 2px #FFFFFF;
+     /* margin-left: 10px; */
+    /* margin-bottom: 10px; */
+    /* box-shadow: 1px 2px 2px #FFFFFF; */
     border-radius: .1em;
-    display: flex;
-    justify-content: center;
+     /* display: flex; */
+    justify-content: center; 
 }
 
-#modules,
+/* #modules,
 #accounts,
 #servers,
 #logDateGraph {
@@ -424,7 +424,7 @@
     margin: 3px;
     width: 418px;
     height: 518px;
-}
+} */
 
 
 /****** centering *********/
@@ -437,7 +437,7 @@ to be restricted to a multiple of the column width
 
 /* Allow for a maximum of nine columns. */
 
-@media (min-width: 180px) {
+/*@media (min-width: 180px) {
     .demo-masonry-layout {
         width: 160px;
     }
@@ -651,4 +651,4 @@ to be restricted to a multiple of the column width
     .demo-masonry-layout.demo-custom-tile-sizes-3 {
         width: 954px;
     }
-}
+} */
