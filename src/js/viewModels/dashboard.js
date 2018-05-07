@@ -51,7 +51,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'serviceworker', 'ojs/ojknockout', '
             };
 
             // retreiving data from backend service
-            serviceworker.getLogData("GET", "//localhost:3001/readactivity").done((logs) => {
+            serviceworker.getLogData("GET", "//appsharebackend.steltix.com/readactivity").done((logs) => {
                 self.logs(logs);
                 rawData = logs;
                 self.accounts([]);
@@ -118,34 +118,34 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'serviceworker', 'ojs/ojknockout', '
             };
 
 
-            self.chemicals = [{
-                    name: 'logs',
-                    sizeClass: 'oj-masonrylayout-tile-3x1'
-                }, {
-                    name: 'mobile',
-                    sizeClass: 'oj-masonrylayout-tile-3x1'
-                },
-                {
-                    name: 'logDates',
-                    sizeClass: 'oj-masonrylayout-tile-2x1'
-                }, {
-                    name: 'modules',
-                    sizeClass: 'oj-masonrylayout-tile-4x4'
-                },
-                {
-                    name: 'accounts',
-                    sizeClass: 'oj-masonrylayout-tile-4x4'
-                }
-            ];
+            // self.chemicals = [{
+            //         name: 'logs',
+            //         sizeClass: 'oj-masonrylayout-tile-3x1 oj-flex-item'
+            //     }, {
+            //         name: 'mobile',
+            //         sizeClass: 'oj-masonrylayout-tile-3x1 oj-flex-item'
+            //     },
+            //     {
+            //         name: 'logDates',
+            //         sizeClass: 'oj-masonrylayout-tile-2x1 oj-flex-item'
+            //     }, {
+            //         name: 'modules',
+            //         sizeClass: 'oj-masonrylayout-tile-4x4 oj-flex-item'
+            //     },
+            //     {
+            //         name: 'accounts',
+            //         sizeClass: 'oj-masonrylayout-tile-4x4 oj-flex-item'
+            //     }
+            // ];
 
-            self.handleBindingsApplied = function(info) {
-                $('#modules').append($('#filterCustomers'));
-                $('#modules').append($('#moduleGraph'));
-                $('#accounts').append($('#accountGraph'));
-                $('#mobile').append($('#mobileGraph'));
-                $("#logs").append($("#totalLogs"));
-                $("#logDates").append($("#logDateGraph"));
-            };
+            // self.handleBindingsApplied = function(info) {
+            //     $('#modules').append($('#filterCustomers'));
+            //     $('#modules').append($('#moduleGraph'));
+            //     $('#accounts').append($('#accountGraph'));
+            //     $('#mobile').append($('#mobileGraph'));
+            //     $("#logs").append($("#totalLogs"));
+            //     $("#logDates").append($("#logDateGraph"));
+            // };
         };
         return new DashboardViewModel();
     });

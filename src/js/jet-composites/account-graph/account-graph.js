@@ -21,7 +21,6 @@ define(
             self.logArray = ko.observableArray([]);
             self.dataprovider = new ko.observable(new oj.ArrayDataProvider(self.logArray, { idAttribute: 'accountId' }));
 
-            /// ACCOUNTS TABLE
            /// ACCOUNTS TABLE
            const AccountFunctions = () => {
             const initialiseTable = async(logData) => {
@@ -171,8 +170,6 @@ define(
             };
         };
 
-
-
         self.handleValueChanged = AccountFunctions().filter;
 
         self.clearClick = AccountFunctions().clearSearch;
@@ -180,8 +177,6 @@ define(
         self.highlightingCellRenderer = AccountFunctions().cellRenderer;
 
         self.columnArray = AccountFunctions().parseTableData();
-
-
 
             // EXCEL EXPORT
             self.exportFile = () => {

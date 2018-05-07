@@ -1,32 +1,46 @@
 {
-  "_from": "xlsx",
-  "_id": "xlsx@0.12.11",
-  "_inBundle": false,
-  "_integrity": "sha1-VIBteKe7ApmKuj1ZxJmVpvC+AB4=",
+  "_args": [
+    [
+      "xlsx@^0.12.11",
+      "/media/gareth/Seagate Expansion Drive/Gareth/Projects/Github-Appshare-Dashboard/src/js/libs"
+    ]
+  ],
+  "_from": "xlsx@>=0.12.11 <0.13.0",
+  "_id": "xlsx@0.12.12",
+  "_inCache": true,
+  "_installable": true,
   "_location": "/xlsx",
+  "_nodeVersion": "10.0.0",
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/xlsx_0.12.12_1525504151073_0.9537645014288203"
+  },
+  "_npmUser": {
+    "email": "dev@sheetjs.com",
+    "name": "sheetjs"
+  },
+  "_npmVersion": "4.3.0",
   "_phantomChildren": {},
   "_requested": {
-    "type": "tag",
-    "registry": true,
-    "raw": "xlsx",
     "name": "xlsx",
-    "escapedName": "xlsx",
-    "rawSpec": "",
-    "saveSpec": null,
-    "fetchSpec": "latest"
+    "raw": "xlsx@^0.12.11",
+    "rawSpec": "^0.12.11",
+    "scope": null,
+    "spec": ">=0.12.11 <0.13.0",
+    "type": "range"
   },
   "_requiredBy": [
-    "#USER",
     "/"
   ],
-  "_resolved": "https://registry.npmjs.org/xlsx/-/xlsx-0.12.11.tgz",
-  "_shasum": "54806d78a7bb02998aba3d59c49995a6f0be001e",
-  "_spec": "xlsx",
-  "_where": "/media/gareth/Seagate Expansion Drive/Gareth/Projects/Github-Appshare-Dashboard",
+  "_resolved": "https://registry.npmjs.org/xlsx/-/xlsx-0.12.12.tgz",
+  "_shasum": "2d17459f2cb1e4f1b564c170c565a18baa9239dc",
+  "_shrinkwrap": null,
+  "_spec": "xlsx@^0.12.11",
+  "_where": "/media/gareth/Seagate Expansion Drive/Gareth/Projects/Github-Appshare-Dashboard/src/js/libs",
   "alex": {
     "allow": [
-      "wtf",
-      "holes"
+      "holes",
+      "wtf"
     ]
   },
   "author": {
@@ -38,14 +52,13 @@
   "browser": {
     "buffer": false,
     "crypto": false,
-    "stream": false,
+    "fs": false,
     "process": false,
-    "fs": false
+    "stream": false
   },
   "bugs": {
     "url": "https://github.com/SheetJS/js-xlsx/issues"
   },
-  "bundleDependencies": false,
   "config": {
     "blanket": {
       "pattern": "xlsx.js"
@@ -53,14 +66,13 @@
   },
   "dependencies": {
     "adler-32": "~1.2.0",
-    "cfb": "~1.0.6",
-    "codepage": "~1.12.1",
-    "commander": "~2.14.1",
+    "cfb": "~1.0.7",
+    "codepage": "~1.13.0",
+    "commander": "~2.15.1",
     "crc-32": "~1.2.0",
     "exit-on-epipe": "~1.0.1",
     "ssf": "~0.10.2"
   },
-  "deprecated": false,
   "description": "SheetJS Spreadsheet data parser and writer",
   "devDependencies": {
     "@sheetjs/uglify-js": "~2.7.3",
@@ -71,27 +83,44 @@
     "mocha": "~2.5.3",
     "typescript": "2.2.0"
   },
+  "directories": {},
+  "dist": {
+    "fileCount": 26,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJa7ViaCRA9TVsSAnZWagAA4jkP+gJGZKVhwS5zJE0Mp90k\ndG2riu0cw8/X9XhPiS6sud1JgpQuIGtrC46ftTCtyIQ6ZZmJ2A52MszY/g1B\nDHk31vbr3BTN7TcFnbU00IP8aN9DAN62lkB6UG4E6QBmMplZs/BdUPpj3LI5\nJlr8Dby2mpKOtwHNVomPlTNjm+Lw2oOZ9yeZtITO8isEl9u8tp/5OVoFF51S\nmaorfHjfVEnOV+NIvjUvQ5wWeH0KLyLbT3ygE0sHmc1iTH8Y19fSx56NBdCF\no+tXgKmD2rbIdmlzBRYdXgTHnlo7fh4phTiM67Lnx6Vxx6LMtvkDFIgIL/BC\nA69g/OZKZOxxUFRUsjiX3CGI60yQ85xkCEEDoxUPKJVZ78QhzZU5InXygY6H\n1yUnrh09GtImw9t87TbTNYGkIIo/NF9Cgvq8O8UuUBrmGBKXDj8mg+Jj2hdR\nkzuE2CS8H0cP9e6hqLVrUR0jNjVa6jiRN139hNcBcK675DAeArHJvox4g7dy\newdKdE72Do0ItWOQeYmce3SapuQEzoINdSlnatYt7/EHH7oaPT1xchGnB4X7\n905IblZPy7WrWRkSNO8eRgafyTv4tX58Px8DgESTxiwpKTmJ/iLppTn3okoy\nE20Gu6QdTpCJt6gCQuareBzPSDCkqaR4OZ5fHlhmTMJ1/oOngKIssE2mZPeG\nY/UM\r\n=fsXL\r\n-----END PGP SIGNATURE-----\r\n",
+    "shasum": "2d17459f2cb1e4f1b564c170c565a18baa9239dc",
+    "tarball": "https://registry.npmjs.org/xlsx/-/xlsx-0.12.12.tgz",
+    "unpackedSize": 7586735
+  },
   "engines": {
     "node": ">=0.8"
   },
+  "gitHead": "c0b48958813950d9653ea2784abd440a0ad93420",
   "homepage": "http://sheetjs.com/opensource",
   "keywords": [
-    "excel",
-    "xls",
-    "xlsx",
-    "xlsb",
-    "xlsm",
-    "ods",
     "csv",
     "dbf",
     "dif",
-    "sylk",
+    "excel",
+    "ods",
     "office",
-    "spreadsheet"
+    "spreadsheet",
+    "sylk",
+    "xls",
+    "xlsb",
+    "xlsm",
+    "xlsx"
   ],
   "license": "Apache-2.0",
   "main": "./xlsx",
+  "maintainers": [
+    {
+      "name": "sheetjs",
+      "email": "dev@sheetjs.com"
+    }
+  ],
   "name": "xlsx",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
   "repository": {
     "type": "git",
     "url": "git://github.com/SheetJS/js-xlsx.git"
@@ -104,5 +133,5 @@
     "test": "make travis"
   },
   "types": "types",
-  "version": "0.12.11"
+  "version": "0.12.12"
 }
