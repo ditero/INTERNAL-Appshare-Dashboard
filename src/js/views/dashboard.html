@@ -1,5 +1,5 @@
 <div class="oj-hybrid-padding">
-  <!-- <style>
+    <!-- <style>
    .oj-lg-6 {
        background-color: #a1d0e8;
        }
@@ -8,47 +8,56 @@
       height: auto;
   }
   </style> -->
-  
-  
-  <div class="demo-grid-sizes demo-flex-display">
-            <div class="oj-flex oj-flex-items-pad" style="height:100%;">
-              <div style= "height:100%; margin-bottom:10px;" class="oj-sm-12 oj-md-4 oj-lg-4 oj-flex-item"><total-logs data="{{logs}}"></total-logs> </div>
-              <div style= "height:100%; margin-bottom:10px" class="oj-sm-12 oj-md-4  oj-lg-4 oj-flex-item"><mobile-graph data={{logs}}></mobile-graph></div>
-              <div style= "height:100%; margin-bottom:10px" class="oj-sm-12 oj-md-4  oj-lg-4 oj-flex-item"> 
+
+
+    <div class="demo-grid-sizes demo-flex-display">
+        <div class="oj-flex oj-flex-items-pad" style="height:100%;">
+            <div style="height:100%; margin-bottom:10px;" class="oj-sm-12 oj-md-4 oj-lg-4 oj-flex-item">
+                <total-logs data="{{logs}}"></total-logs>
+            </div>
+            <div style="height:100%; margin-bottom:10px" class="oj-sm-12 oj-md-4  oj-lg-4 oj-flex-item">
+                <mobile-graph data={{logs}}></mobile-graph>
+            </div>
+            <div style="height:100%; margin-bottom:10px" class="oj-sm-12 oj-md-4  oj-lg-4 oj-flex-item">
                 <!-- log dates -->
                 <br>
                 <oj-label for="date">Select Day: </oj-label>
                 <hr>
-                <oj-input-date id="date" value='{{dayValue}}' on-value-changed="[[selectedDay]]">
-                </oj-input-date>
-                
-                <br/><br/>
+                <oj-input-date id="date" value='{{dayValue}}' on-value-changed="[[selectedDay]]"></oj-input-date>
+                <oj-button id="clearButton" on-click='[[clearDayFilter]]' display='icons' chroming='half'>
+                        <span slot='startIcon' class='oj-fwk-icon oj-fwk-icon-cross03'></span> Clear
+                    </oj-button>
+                <br/>
+                <br/>
                 <!-- end of log dates -->
-              </div>
-              <div style= "height:100%; margin-bottom:10px" class="oj-sm-12 oj-md-12  oj-lg-6 oj-flex-item">
-                  <div id="filterCustomers">
-                      <div id="title">
-                          <h1>Appshare Logs</h1>
-                      </div>
-                      <div id="containerDiv">
-                          <div class="filterContainer">
-                              <div id="form-container">
-                                  <oj-form-layout label-edge="{{labelEdge}}">
-                                      <oj-select-one id="customerOptions" options="[[accounts]]" label-hint="Filter By Account:" value="{{val}}" on-value-changed="[[selectedValue]]" disabled="{{isDisabled}}"></oj-select-one>
-                                      <oj-input-text id="control3" value="{{val}}" label-hint="Currently Filtered By:" disabled></oj-input-text>
-                                  </oj-form-layout>
-                              </div>
-                          </div>
-                      </div>
-                      <br>
-                      <hr>
-                  </div>
-                <modules-graph data="{{logs}}"></modules-graph>
-              </div>
-              <div style="height:100%; margin-bottom:10px" class="oj-sm-12 oj-md-12  oj-lg-6 oj-flex-item"><account-graph data="{{logs}}"></account-graph> </div>
             </div>
-          </div>
-  </div>
+            <div style="height:100%; margin-bottom:10px" class="oj-sm-12 oj-md-12  oj-lg-6 oj-flex-item">
+                <div id="filterCustomers">
+                    <div id="title">
+                        <h1>Appshare Logs</h1>
+                    </div>
+                    <div id="containerDiv">
+                        <div class="filterContainer">
+                            <div id="form-container">
+                                <oj-form-layout label-edge="{{labelEdge}}">
+                                    <oj-select-one id="customerOptions" options="[[accounts]]" label-hint="Filter By Account:" value="{{val}}" on-value-changed="[[selectedValue]]"
+                                        disabled="{{isDisabled}}"></oj-select-one>
+                                    <oj-input-text id="control3" value="{{val}}" label-hint="Currently Filtered By:" disabled></oj-input-text>
+                                </oj-form-layout>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <hr>
+                </div>
+                <modules-graph data="{{logs}}"></modules-graph>
+            </div>
+            <div style="height:100%; margin-bottom:10px" class="oj-sm-12 oj-md-12  oj-lg-6 oj-flex-item">
+                <account-graph data="{{logs}}"></account-graph>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- <total-logs data="{{logs}}"></total-logs>
 <modules-graph data="{{logs}}"></modules-graph>
 <account-graph data="{{logs}}"></account-graph>
