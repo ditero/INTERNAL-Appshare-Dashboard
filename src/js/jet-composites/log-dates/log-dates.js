@@ -1,5 +1,5 @@
 define(
-    ['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojknockout', 'ojs/ojbutton', 'ojs/ojselectcombobox', 'ojs/ojvalidation-number', 'ojs/ojgauge'],
+    ['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojknockout',],
     function(oj, ko, $) {
         'use strict';
 

@@ -1,4 +1,4 @@
-define(['ojs/ojcore', 'knockout', 'jquery', 'serviceworker', 'ojs/ojknockout', 'ojs/ojlabel', 'ojs/ojformlayout', 'ojs/ojselectcombobox', 'ojs/ojmasonrylayout', 'jet-composites/modules-graph/loader', 'jet-composites/account-graph/loader', 'jet-composites/mobile-graph/loader', 'jet-composites/log-dates/loader', 'jet-composites/mobile-graph/loader', 'jet-composites/total-logs/loader'],
+define(['ojs/ojcore', 'knockout', 'jquery', 'serviceworker', 'ojs/ojknockout', 'ojs/ojlabel', 'ojs/ojformlayout', 'ojs/ojselectcombobox', 'ojs/ojdatetimepicker', 'ojs/ojtimezonedata', 'ojs/ojlabel', 'jet-composites/modules-graph/loader', 'jet-composites/account-graph/loader', 'jet-composites/mobile-graph/loader', 'jet-composites/log-dates/loader', 'jet-composites/mobile-graph/loader', 'jet-composites/total-logs/loader'],
     function(oj, ko, $) {
 
         function DashboardViewModel() {
@@ -19,6 +19,13 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'serviceworker', 'ojs/ojknockout', '
             //     return days.toFixed() + " days";
             // });
             ///////////////////////////////////////////////////
+
+            ///   LOG DATE
+            this.value = ko.observable(oj.IntlConverterUtils.dateToLocalIso(new Date()));
+            this.datePicker = {
+              weekDisplay: 'number'
+            };
+            ////////////////////
 
             self.isSmall = oj.ResponsiveKnockoutUtils.createMediaQueryObservable(
                 oj.ResponsiveUtils.getFrameworkQuery(oj.ResponsiveUtils.FRAMEWORK_QUERY_KEY.SM_ONLY));
@@ -51,7 +58,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'serviceworker', 'ojs/ojknockout', '
             };
 
             // retreiving data from backend service
-            serviceworker.getLogData("GET", "//appsharebackend.steltix.com/readactivity").done((logs) => {
+            serviceworker.getLogData("GET", "//localhost:3001/readactivity").done((logs) => {
                 self.logs(logs);
                 rawData = logs;
                 self.accounts([]);
