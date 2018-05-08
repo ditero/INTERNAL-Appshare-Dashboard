@@ -1,67 +1,47 @@
-
 <style>
     #log-dates {
         height: 137px;
     }
 
-        #title {
-    display: flex;
-    justify-content: center;
-}
-
-#title h1 {
-    font-family: Charcoal, sans-serif;
-    font-size: 23px;
-    letter-spacing: 2px;
-    word-spacing: 2px;
-    color: #000000;
-    font-weight: normal;
-    text-decoration: none;
-    font-style: normal;
-    font-variant: normal;
-    text-transform: none;
-}
-
-#date, #label {
-    margin: 5px 2px 10px 3px;
-};
-
-.dateSelector {
-    border: 1px solid red;
-    width: 50px;
-}
-
-@media (max-width: 1024px) {
-    .dateSelector {
-        width: 50%;
+    #title {
+        display: flex;
+        justify-content: center;
     }
-    .module {
-        margin-left: 0px;   
+
+    #title h1 {
+        font-family: Charcoal, sans-serif;
+        font-size: 23px;
+        letter-spacing: 2px;
+        word-spacing: 2px;
+        color: #000000;
+        font-weight: normal;
+        text-decoration: none;
+        font-style: normal;
+        font-variant: normal;
+        text-transform: none;
     }
-}
+
+
+    @media (max-width: 1024px) {
+        .module {
+            margin-left: 0px;
+        }
+    }
 </style>
-    <div class="demo-grid-sizes demo-flex-display">
-        <div class="oj-flex oj-flex-items-pad" style="height:100%;">
-        <div style="background-color: #ffff; height:100%; margin-left: 5px; margin-bottom: 6px;" class="oj-sm-12 oj-md-4 oj-lg-3 oj-flex-item"><total-logs data="{{logs}}"></total-logs> </div>
-        <div style="background-color: #ffff; height:100%; margin-left: 5px; margin-bottom: 6px;" class="oj-sm-12 oj-md-3  oj-lg-4 oj-flex-item"><mobile-graph data={{logs}}></mobile-graph></div>
+<div class="demo-grid-sizes demo-flex-display">
+    <div class="oj-flex oj-flex-items-pad" style="height:100%;">
+        <div style="background-color: #ffff; height:100%; margin-left: 5px; margin-bottom: 6px;" class="oj-sm-12 oj-md-4 oj-lg-3 oj-flex-item">
+            <total-logs data="{{logs}}"></total-logs>
+        </div>
+        <div style="background-color: #ffff; height:100%; margin-left: 5px; margin-bottom: 6px;" class="oj-sm-12 oj-md-3  oj-lg-4 oj-flex-item">
+            <mobile-graph data={{logs}}></mobile-graph>
+        </div>
         <div style="background-color: #ffff; height:100%; margin-left: 5px; margin-bottom: 6px;" class="oj-sm-12 oj-md-4  oj-lg-4 oj-flex-item">
             <div id="log-dates">
-                    <div class="oj-flex oj-sm-flex-direction-column">
-                            <div class="oj-flex-item">
-                                <h1 id="title">Daily Filter</h1>
-                            </div>
-                        </div>
-                    <hr>
 
-                    <oj-label for="date" id="label">Select Day: </oj-label>
-                 
-                    <oj-input-date id="date" class="dateSelector" value='{{dayValue}}' on-value-changed="[[selectedDay]]"   converter= '{
-                        "type":"datetime", 
-                        "options": {"year": "numeric", "month": "long", "day": "numeric"}}'></oj-input-date>
-                        <oj-button id="clearButton" on-click='[[clearDayFilter]]' display='icons' chroming='half'>
-                                <span slot='startIcon' class='oj-fwk-icon oj-fwk-icon-cross03'></span> Clear
-                            </oj-button>
-               
+
+
+
             </div>
         </div>
         <div style="background-color: #ffff; height:100%; margin-left: 5px; margin-bottom: 5px;" class="oj-sm-12 oj-md-12  oj-lg-6 oj-flex-item module">
@@ -74,8 +54,16 @@
                     <div class="filterContainer">
                         <div id="form-container">
                             <oj-form-layout label-edge="{{labelEdge}}">
-                                <oj-select-one id="customerOptions" options="[[accounts]]" label-hint="Filter By Account:" value="{{val}}" on-value-changed="[[selectedValue]]" disabled="{{isDisabled}}"></oj-select-one>
+                                <oj-select-one id="customerOptions" options="[[accounts]]" label-hint="Filter By Account:" value="{{val}}" on-value-changed="[[selectedValue]]"
+                                    disabled="{{isDisabled}}"></oj-select-one>
                                 <oj-input-text id="control3" value="{{val}}" label-hint="Currently Filtered By:" disabled></oj-input-text>
+                                <oj-input-date id="date" class="dateSelector" label-hint="Filter By Day:" value='{{dayValue}}' on-value-changed="[[selectedDay]]"
+                                    converter='{
+                                    "type":"datetime", 
+                                    "options": {"year": "numeric", "month": "long", "day": "numeric"}}'></oj-input-date>
+                                <oj-checkboxset labelled-by="mainlabelid" class='oj-choice-direction-row' value="{{orderByDate}}" on-value-changed="[[orderByDateFunc]]">
+                                    <oj-option id="order" value="orderByDate">Order By Date</oj-option>
+                                </oj-checkboxset>
                             </oj-form-layout>
                         </div>
                     </div>
@@ -84,6 +72,8 @@
             </div>
             <modules-graph data="{{logs}}"></modules-graph>
         </div>
-        <div style="background-color: #ffff; height:100%; margin-left: 10px; margin-bottom: 6px;" class="oj-sm-12 oj-md-12  oj-lg-5 oj-flex-item"><account-graph data="{{logs}}"></account-graph> </div>
+        <div style="background-color: #ffff; height:100%; margin-left: 10px; margin-bottom: 6px;" class="oj-sm-12 oj-md-12  oj-lg-5 oj-flex-item">
+            <account-graph data="{{logs}}"></account-graph>
         </div>
     </div>
+</div>
