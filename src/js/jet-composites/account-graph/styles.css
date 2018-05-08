@@ -32,3 +32,19 @@ tbody::-webkit-scrollbar-thumb {
     background-color: darkgrey;
     outline: 1px solid slategrey;
 }
+
+.label-export {
+    padding-left: 0px;
+}
+
+.demo-icon-font {
+    padding-right: 0px;
+    border: 1px soid red;
+}
+.offGrid {
+ display: none;
+}
+
+.container {
+    height: 649px;
+}
