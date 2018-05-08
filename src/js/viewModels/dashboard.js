@@ -1,4 +1,4 @@
-define(['ojs/ojcore', 'knockout', 'jquery', 'serviceworker', 'ojs/ojknockout', 'ojs/ojlabel', 'ojs/ojformlayout', 'ojs/ojselectcombobox', 'ojs/ojmasonrylayout', 'jet-composites/modules-graph/loader', 'jet-composites/account-graph/loader', 'jet-composites/mobile-graph/loader', 'jet-composites/log-dates/loader', 'jet-composites/mobile-graph/loader', 'jet-composites/total-logs/loader'],
+define(['ojs/ojcore', 'knockout', 'jquery', 'serviceworker', 'ojs/ojknockout', 'ojs/ojlabel', 'ojs/ojformlayout', 'ojs/ojselectcombobox', 'ojs/ojdatetimepicker', 'ojs/ojbutton', 'ojs/ojtimezonedata', 'ojs/ojlabel', 'jet-composites/modules-graph/loader', 'jet-composites/account-graph/loader', 'jet-composites/mobile-graph/loader', 'jet-composites/log-dates/loader', 'jet-composites/mobile-graph/loader', 'jet-composites/total-logs/loader'],
     function(oj, ko, $) {
 
         function DashboardViewModel() {
@@ -19,6 +19,26 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'serviceworker', 'ojs/ojknockout', '
             //     return days.toFixed() + " days";
             // });
             ///////////////////////////////////////////////////
+
+            ///   LOG DATE
+            self.dayValue = ko.observable(oj.IntlConverterUtils.dateToLocalIso(new Date()));
+            let counter = 0;
+            self.selectedDay = (event) => {
+                event.preventDefault();
+                if (counter > 0) {
+                    let date = event.detail.value;
+                    let modifiedDate = new Date(date).toLocaleDateString();
+
+                    // call filter function 
+                    dateFilter(modifiedDate);
+                };
+                counter++;
+            };
+
+            self.clearDayFilter = () => {
+                dateFilter("all days");
+            };
+            ////////////////////
 
             self.isSmall = oj.ResponsiveKnockoutUtils.createMediaQueryObservable(
                 oj.ResponsiveUtils.getFrameworkQuery(oj.ResponsiveUtils.FRAMEWORK_QUERY_KEY.SM_ONLY));
@@ -117,34 +137,24 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'serviceworker', 'ojs/ojknockout', '
 
             };
 
+            const dateFilter = (dateOption) => {
+                let filteredData = [];
 
-            self.chemicals = [{
-                    name: 'logs',
-                    sizeClass: 'oj-masonrylayout-tile-3x1'
-                }, {
-                    name: 'mobile',
-                    sizeClass: 'oj-masonrylayout-tile-3x1'
-                },
-                {
-                    name: 'logDates',
-                    sizeClass: 'oj-masonrylayout-tile-2x1'
-                }, {
-                    name: 'modules',
-                    sizeClass: 'oj-masonrylayout-tile-4x4'
-                },
-                {
-                    name: 'accounts',
-                    sizeClass: 'oj-masonrylayout-tile-4x4'
-                }
-            ];
-
-            self.handleBindingsApplied = function(info) {
-                $('#modules').append($('#filterCustomers'));
-                $('#modules').append($('#moduleGraph'));
-                $('#accounts').append($('#accountGraph'));
-                $('#mobile').append($('#mobileGraph'));
-                $("#logs").append($("#totalLogs"));
-                $("#logDates").append($("#logDateGraph"));
+                if (dateOption) {
+                    let date = dateOption;
+                    if (date === "all days") {
+                        self.logs(rawData);
+                    } else {
+                        rawData.filter(log => {
+                            let logDate = log.datetime;
+                            let modifiedLogDate = new Date(logDate).toLocaleDateString();
+                            if (modifiedLogDate === date) {
+                                filteredData.push(log);
+                            };
+                        });
+                        self.logs(filteredData);
+                    };
+                };
             };
         };
         return new DashboardViewModel();

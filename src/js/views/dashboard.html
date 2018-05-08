@@ -1,99 +1,61 @@
-<style>
-    #containerDiv {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    
-    .filterContainer {
-        width: 100%;
-        margin-left: 100px;
-    }
-    
-    .filterCustomers {
-        clear: both;
-    }
-    
-    #customerOptions {
-        width: 100%;
-        margin-left: 33px;
-    }
-    
-    @media (max-width: 360px) {
-        #containerDiv {
-            display: inline;
-        }
-        .filterContainer {
-            width: 100%;
-            margin-left: 8px;
-        }
-        #customerOptions {
-            margin-left: 25px;
-        }
-        #logs,
-        #mobile,
-        #modules,
-        #accounts {
-            width: 328px;
-        }
-        #logDates {
-            width: 325px;
-        }
-        #masonryLayout {
-            padding-left: 0px;
-        }
-    }
-    
-    @media (max-height: 360px) {
-        #logs,
-        #modules,
-        #accounts {
-            width: 605px;
-        }
-        #logDates {
-            width: 605px;
-        }
-        #masonryLayout {
-            padding-left: 0px;
-        }
-        #mobile {
-            display: none;
-        }
-        #customerOptions {
-            margin-left: 109px;
-        }
-    }
-</style>
-<div class="container">
-    <div class="demo-scroll-container">
-        <oj-masonry-layout id="masonryLayout" class="oj-flex">
-            <!-- ko foreach: chemicals -->
-            <div class="oj-panel demo-tile" data-bind="css: sizeClass, attr:{id: name}"></div>
-            <!-- /ko -->
-        </oj-masonry-layout>
-    </div>
-</div>
-
-<total-logs id="totalLogs" data="{{logs}}"></total-logs>
-<modules-graph id="moduleGraph" data="{{logs}}"></modules-graph>
-<account-graph id="accountGraph" data="{{logs}}"></account-graph>
-<mobile-graph id="mobileGraph" data={{logs}}></mobile-graph>
-<log-dates id="logDateGraph" data="{{logs}}"></log-dates>
-
-<div id="filterCustomers">
-    <div id="title">
-        <h1>Appshare Logs</h1>
-    </div>
-    <div id="containerDiv">
-        <div class="filterContainer">
-            <div id="form-container">
-                <oj-form-layout label-edge="{{labelEdge}}">
-                    <oj-select-one id="customerOptions" options="[[accounts]]" label-hint="Filter By Account:" value="{{val}}" on-value-changed="[[selectedValue]]" disabled="{{isDisabled}}"></oj-select-one>
-                    <oj-input-text id="control3" value="{{val}}" label-hint="Currently Filtered By:" disabled></oj-input-text>
-                </oj-form-layout>
+<div class="oj-hybrid-padding">
+    <div class="demo-grid-sizes demo-flex-display">
+        <div class="oj-flex oj-flex-items-pad" style="height:100%; width: 100%">
+            <div style="height:100%; margin-bottom:10px;" id="blockOne" class="component_block oj-sm-12 oj-md-4 oj-lg-4 oj-flex-item">
+                <total-logs data="{{logs}}"></total-logs>
+            </div>
+            <div style="height:100%; margin-bottom:10px" class="component_block oj-sm-12 oj-md-4  oj-lg-4 oj-flex-item">
+                <mobile-graph data={{logs}}></mobile-graph>
+            </div>
+            <div style="height:100%; margin-bottom:10px" class="component_block oj-sm-12 oj-md-4  oj-lg-4 oj-flex-item">
+                <!-- log dates -->
+                <br>
+                <oj-label for="date">Select Day: </oj-label>
+                <hr>
+                <oj-input-date id="date" value='{{dayValue}}' on-value-changed="[[selectedDay]]"   converter= '{
+                    "type":"datetime", 
+                    "options": {"year": "numeric", "month": "long", "day": "numeric"}}'></oj-input-date>
+                <oj-button id="clearButton" on-click='[[clearDayFilter]]' display='icons' chroming='half'>
+                        <span slot='startIcon' class='oj-fwk-icon oj-fwk-icon-cross03'></span> Clear
+                    </oj-button>
+                <br/>
+                <br/>
+                <!-- end of log dates -->
+            </div>
+            <div style="height:100%; margin-bottom:10px" class="component_block oj-sm-12 oj-md-12  oj-lg-6 oj-flex-item">
+                <div id="filterCustomers">
+                    <div id="title">
+                        <h1>Appshare Logs</h1>
+                    </div>
+                    <div id="containerDiv">
+                        <div class="filterContainer">
+                            <div id="form-container">
+                                <oj-form-layout label-edge="{{labelEdge}}">
+                                    <oj-select-one id="customerOptions" options="[[accounts]]" label-hint="Filter By Account:" value="{{val}}" on-value-changed="[[selectedValue]]"
+                                        disabled="{{isDisabled}}"></oj-select-one>
+                                    <oj-input-text id="control3" value="{{val}}" label-hint="Currently Filtered By:" disabled></oj-input-text>
+                                </oj-form-layout>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <hr>
+                </div>
+                <modules-graph data="{{logs}}"></modules-graph>
+            </div>
+            <div style="height:100%; margin-bottom:10px" class="component_block oj-sm-12 oj-md-12  oj-lg-6 oj-flex-item">
+                <account-graph data="{{logs}}"></account-graph>
             </div>
         </div>
     </div>
-    <br>
-    <hr>
 </div>
+<!-- <total-logs data="{{logs}}"></total-logs>
+<modules-graph data="{{logs}}"></modules-graph>
+<account-graph data="{{logs}}"></account-graph>
+<mobile-graph data={{logs}}></mobile-graph>
+<log-dates data="{{logs}}"></log-dates>
+<img src="js/img/dashboard-logs.jpg">
+<img src="js/img/dashboard-logins.jpg">
+<img src="js/img/dashboard-month.jpg">
+<img src="js/img/dashboard-modules.jpg">
+<img src="js/img/dashboard-accounts.jpg"> -->
