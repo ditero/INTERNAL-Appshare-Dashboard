@@ -12,6 +12,8 @@ define(
             self.composite = context.element;
 
             self.legendSections = ko.observableArray();
+            self.symbolWidth = ko.observable(22);
+            self.symbolHeight = ko.observable(22);
 
             function MobileChartView(data) {
                 self.legendSections([])
