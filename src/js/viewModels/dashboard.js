@@ -9,6 +9,7 @@ define([
   "ojs/ojformlayout",
   "ojs/ojselectcombobox",
   "ojs/ojdatetimepicker",
+  'ojs/ojprogress',
   "ojs/ojbutton",
   "ojs/ojtimezonedata",
   "ojs/ojlabel",
@@ -85,7 +86,7 @@ define([
 
     // retreiving data from backend service
     serviceworker
-      .getLogData("GET", "//localhost:3001/readactivity")
+      .getLogData("GET", "//appsharebackend.steltix.com/readactivity")
       .done(logs => {
         self.logs(logs);
         rawData = logs;
@@ -112,6 +113,26 @@ define([
           }
         });
       });
+    self.progressValue = ko.observable(0);
+
+    var proBar = function () {
+      if (rawData.length == 0) {
+        $("#mainDiv").hide();
+        self.progressValue(self.progressValue() + 1);
+        //   console.log($("#blockOne")[0].outerText.length)
+
+      } else if (self.logs().length !== 0) {
+        //   console.log($("#blockOne")[0].outerText.length)                        
+        $("#mainDiv").show();
+        $("#progressBar").remove();
+
+
+      }
+      // console.log($("#blockOne")[0].outerText.length)
+
+
+    };
+    setInterval(proBar, 10)
 
     const getParams = (url, query) => {
       try {

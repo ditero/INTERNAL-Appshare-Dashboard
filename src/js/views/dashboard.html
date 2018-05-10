@@ -43,7 +43,16 @@
         }
     }
 </style>
-<div class="demo-grid-sizes demo-flex-display">
+<div id="progressBar" >
+    <div id="loadingRegion" aria-busy="true" aria-describedby="progressBar">
+      Loading...
+    </div>
+    <oj-progress id="progressBar" style="width: 200px;margin-top: 20px" value="{{progressValue}}"></oj-progress>
+    <br/>
+    <!-- <oj-progress id="progressCircle" type="circle" value="{{progressValue}}"></oj-progress> -->
+</div>
+
+<div class="demo-grid-sizes demo-flex-display" id="mainDiv">
     <div class="oj-flex oj-flex-items-pad" style="height:100%;">
         <div style="background-color: #ffff; height:100%; margin-left: 5px; margin-bottom: 6px;" class="oj-sm-12 oj-md-4 oj-lg-3 oj-flex-item">
             <total-logs data="{{logs}}"></total-logs>
