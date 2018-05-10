@@ -1,0 +1,34 @@
+<style>
+  .circular-status-meter-common {
+    align: center;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    width: 45%;
+  }
+
+  .circular-status-meter-large {
+    height: 70px;
+  }
+
+  .rentention-container {
+    display: flex;
+    justify-content: center;
+  }
+</style>
+
+<div>
+  <div class="oj-flex oj-sm-flex-direction-column">
+    <div class="oj-flex-item">
+      <h3 id="title">Retention Days</h3>
+    </div>
+  </div>
+
+  <hr>
+
+
+  <div class="rentention-container">
+    <oj-status-meter-gauge id="gauge8" min="0" max="100" value="{{noOfRententionDays}}" start-angle="180" angle-extent="180"
+      orientation="circular" class="circular-status-meter-common circular-status-meter-large">
+    </oj-status-meter-gauge>
+
+  </div>

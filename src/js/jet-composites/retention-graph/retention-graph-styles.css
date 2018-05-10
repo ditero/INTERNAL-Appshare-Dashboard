@@ -1,0 +1,8 @@
+retention-graph:not(.oj-complete) {
+	visibility: hidden;
+}
+
+/* retention-graph{
+	min-height: 50px;
+	width: 50px;
+} */

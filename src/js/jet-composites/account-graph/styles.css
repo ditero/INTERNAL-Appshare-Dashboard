@@ -41,10 +41,11 @@ tbody::-webkit-scrollbar-thumb {
     padding-right: 0px;
     border: 1px soid red;
 }
+
 .offGrid {
- display: none;
+    display: none;
 }
 
 .container {
-    height: 649px;
+    height: 737px;
 }
