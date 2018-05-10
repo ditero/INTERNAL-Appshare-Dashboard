@@ -85,7 +85,7 @@ define([
 
     // retreiving data from backend service
     serviceworker
-      .getLogData("GET", "//localhost:3001/readactivity")
+      .getLogData("GET", "//appsharebackend.steltix.com/readactivity")
       .done(logs => {
         self.logs(logs);
         rawData = logs;
@@ -98,18 +98,19 @@ define([
         let accountList = {};
 
         self.logs().forEach(log => {
+          if (!log.account) {
+            log.account = "Unregistered Account";
+          };
           if (accountList[log.account] === undefined) {
-            if (log.account !== "") {
-              accountList[log.account] = 1;
-              let fChar = log.account.substring(1, 0).toUpperCase();
-              let oChar = log.account.slice(1);
-              self.accounts.push({
-                value: fChar + oChar,
-                label: fChar + oChar,
-                disabled: false
-              });
-            }
-          }
+            accountList[log.account] = 1;
+            let fChar = log.account.substring(1, 0).toUpperCase();
+            let oChar = log.account.slice(1);
+            self.accounts.push({
+              value: fChar + oChar,
+              label: fChar + oChar,
+              disabled: false
+            });
+          };
         });
       });
 
@@ -212,6 +213,21 @@ define([
         };
       }
     };
+
+    $(document).ready(function () {
+      let totalLogs = $("#totalLogs");
+
+      const loader = setInterval(function () {
+        if (self.logs().length > 0) {
+          setTimeout(function () {
+            clearInterval(loader);
+            // $("#overlay").fadeOut('slow');
+          }, 5000);
+        };
+      }, 500);
+
+    });
+
   }
   return new DashboardViewModel();
 });
