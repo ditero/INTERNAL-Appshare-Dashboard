@@ -3,7 +3,9 @@ define([
   "knockout",
   "jquery",
   "serviceworker",
-  "ojs/ojknockout", "ojs/ojlabel", "ojs/ojcheckboxset",
+  "ojs/ojknockout",
+  "ojs/ojlabel",
+  "ojs/ojcheckboxset",
   "ojs/ojformlayout",
   "ojs/ojselectcombobox",
   "ojs/ojdatetimepicker",
@@ -13,27 +15,13 @@ define([
   "jet-composites/modules-graph/loader",
   "jet-composites/account-graph/loader",
   "jet-composites/mobile-graph/loader",
-  "jet-composites/log-dates/loader",
-  "jet-composites/mobile-graph/loader", "jet-composites/total-logs/loader"
+  "jet-composites/mobile-graph/loader",
+  "jet-composites/total-logs/loader",
+  'jet-composites/retention-graph/loader'
 ], function (oj, ko, $) {
   function DashboardViewModel() {
     var self = this;
     self.nowrap = ko.observable(false);
-
-    /// REMOVED COMPONENT DATA BUT KEPT IN CASE NEEDED ///
-    // self.value = ko.observable(oj.IntlConverterUtils.dateToLocalIso(new Date()));
-    // self.max = ko.observable((new Date().toISOString()));
-
-    // let retentionDays = { days: 20 };
-    // self.agreement = ko.observableArray();
-    // self.noOfDays = ko.computed(function() {
-    //     let diff = Math.abs(new Date() - new Date(self.value()));
-
-    //     let days = diff / (1000 * 60 * 60 * 24);
-
-    //     return days.toFixed() + " days";
-    // });
-    ///////////////////////////////////////////////////
 
     ///   LOG DATE
     // Filter Functionality
@@ -97,7 +85,7 @@ define([
 
     // retreiving data from backend service
     serviceworker
-      .getLogData("GET", "//localhost:3001/readactivity")
+      .getLogData("GET", "//appsharebackend.steltix.com/readactivity")
       .done(logs => {
         self.logs(logs);
         rawData = logs;

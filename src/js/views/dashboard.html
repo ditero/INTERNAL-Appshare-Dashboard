@@ -21,6 +21,21 @@
         text-transform: none;
     }
 
+    .circular-status-meter-common {
+        align: center;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        width: 45%;
+    }
+
+    .circular-status-meter-large {
+        height: 70px;
+    }
+
+    .rentention-container {
+        display: flex;
+        justify-content: center;
+    }
 
     @media (max-width: 1024px) {
         .module {
@@ -36,12 +51,9 @@
         <div style="background-color: #ffff; height:100%; margin-left: 5px; margin-bottom: 6px;" class="oj-sm-12 oj-md-3  oj-lg-4 oj-flex-item">
             <mobile-graph data={{logs}}></mobile-graph>
         </div>
-        <div style="background-color: #ffff; height:100%; margin-left: 5px; margin-bottom: 6px;" class="oj-sm-12 oj-md-4  oj-lg-4 oj-flex-item">
+        <div style=" background-color: #ffff;   height:100%; margin-left: 5px; margin-bottom: 6px;" class="oj-sm-12 oj-md-4  oj-lg-4 oj-flex-item">
             <div id="log-dates">
-
-
-
-
+                <retention-graph data="{{logs}}"></retention-graph>
             </div>
         </div>
         <div style="background-color: #ffff; height:100%; margin-left: 5px; margin-bottom: 5px;" class="oj-sm-12 oj-md-12  oj-lg-6 oj-flex-item module">
@@ -62,7 +74,7 @@
                                     "type":"datetime", 
                                     "options": {"year": "numeric", "month": "long", "day": "numeric"}}'></oj-input-date>
                                 <oj-checkboxset labelled-by="mainlabelid" class='oj-choice-direction-row' value="{{orderByDate}}" on-value-changed="[[orderByDateFunc]]">
-                                    <oj-option id="order" value="orderByDate">Order By Date</oj-option>
+                                    <oj-option id="order" value="orderByDate">Apply Date Filter</oj-option>
                                 </oj-checkboxset>
                             </oj-form-layout>
                         </div>
