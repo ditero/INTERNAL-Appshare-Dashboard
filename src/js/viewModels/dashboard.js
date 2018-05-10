@@ -86,7 +86,7 @@ define([
 
     // retreiving data from backend service
     serviceworker
-      .getLogData("GET", "//appsharebackend.steltix.com/readactivity")
+      .getLogData("GET", "//localhost:3001/readactivity")
       .done(logs => {
         self.logs(logs);
         rawData = logs;
