@@ -23,6 +23,9 @@ define([
     var self = this;
     self.nowrap = ko.observable(false);
 
+    // LOADING
+    self.loadingValue = ko.observable("Loading...");
+
     ///   LOG DATE
     // Filter Functionality
     self.dayValue = ko.observable(
@@ -85,8 +88,10 @@ define([
 
     // retreiving data from backend service
     serviceworker
-      .getLogData("GET", "//appsharebackend.steltix.com/readactivity")
+      .getLogData("GET", "//localhost:3001/readactivity")
       .done(logs => {
+        loading('data');
+
         self.logs(logs);
         rawData = logs;
         self.accounts([]);
@@ -214,18 +219,34 @@ define([
       }
     };
 
+    const loading = (message) => {
+      switch (message) {
+        case "components":
+          self.loadingValue("Loading Dashboard Components...");
+          break;
+        case "data":
+          self.loadingValue("Loading Dashboard Data...");
+          break;
+        case "finished":
+          self.loadingValue("Finished...");
+          break;
+        default:
+          break;
+      };
+    };
+
     $(document).ready(function () {
       let totalLogs = $("#totalLogs");
-
       const loader = setInterval(function () {
         if (self.logs().length > 0) {
+          loading('components');
           setTimeout(function () {
             clearInterval(loader);
-            // $("#overlay").fadeOut('slow');
+            $("#overlay").fadeOut('slow');
+            loading('finished');
           }, 5000);
         };
       }, 500);
-
     });
 
   }
