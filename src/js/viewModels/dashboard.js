@@ -72,7 +72,6 @@ define([
       }
       counter++;
     };
-    ////////////////////
 
     self.isSmall = oj.ResponsiveKnockoutUtils.createMediaQueryObservable(
       oj.ResponsiveUtils.getFrameworkQuery(
@@ -88,7 +87,7 @@ define([
 
     // retreiving data from backend service
     serviceworker
-      .getLogData("GET", "//localhost:3001/readactivity")
+      .getLogData("GET", "//appsharebackend.steltix.com/readactivity")
       .done(logs => {
         loading('data');
 
