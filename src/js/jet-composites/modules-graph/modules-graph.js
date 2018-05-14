@@ -1,6 +1,6 @@
 define(
     ['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojknockout', 'ojs/ojchart', 'serviceworker'],
-    function(oj, ko, $) {
+    function (oj, ko, $) {
         'use strict';
 
         function ModulesComponentModel(context) {
@@ -12,7 +12,7 @@ define(
             self.orientationValue = ko.observable("vertical");
 
             self.isHorizontal = ko.observableArray([]);
-            self.changeChartOrientation = ko.computed(function() {
+            self.changeChartOrientation = ko.computed(function () {
                 if (self.isHorizontal()[0] == 'Horizontal') {
                     self.orientationValue('horizontal');
                 } else {
@@ -48,7 +48,10 @@ define(
                     let modName = i;
                     let modValue = moduleNames[i];
 
-                    barSeries.push({ name: modName, items: [modValue] });
+                    barSeries.push({
+                        name: modName,
+                        items: [modValue]
+                    });
                 };
 
                 self.barSeriesValue(barSeries);
@@ -57,7 +60,7 @@ define(
 
             self.data = ko.observableArray();
 
-            context.props.then(function(propertyMap) {
+            context.props.then(function (propertyMap) {
                 //Store a reference to the properties for any later use
                 self.properties = propertyMap;
 

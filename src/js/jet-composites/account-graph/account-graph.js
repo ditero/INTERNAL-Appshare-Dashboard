@@ -4,12 +4,12 @@
 */
 define(
     ['ojs/ojcore', 'knockout', 'jquery', 'helper', 'jszip', 'xlsx', 'filesaver', 'moment', 'ojs/ojknockout', 'ojs/ojtable', 'ojs/ojinputtext', 'promise', 'ojs/ojbutton', 'ojs/ojarraydataprovider', 'serviceworker'],
-    function(oj, ko, $) {
+    function (oj, ko, $) {
         'use strict';
 
         function AccountGraphicsComponentModel(context) {
             var self = this;
-            $(document).ready(() =>{
+            $(document).ready(() => {
                 $("#accounttable").addClass("offGrid");
             });
 
@@ -19,164 +19,180 @@ define(
             self.logArray = ko.observableArray([]);
             self.data = ko.observableArray();
             self.logArray = ko.observableArray([]);
-            self.dataprovider = new ko.observable(new oj.ArrayDataProvider(self.logArray, { idAttribute: 'accountId' }));
+            self.dataprovider = new ko.observable(new oj.ArrayDataProvider(self.logArray, {
+                idAttribute: 'accountId'
+            }));
 
-           /// ACCOUNTS TABLE
-           const AccountFunctions = () => {
-            const initialiseTable = async(logData) => {
-                // Get Data
-                let modifiedLogs = modifyData(logData);
+            /// ACCOUNTS TABLE
+            const AccountFunctions = () => {
+                const initialiseTable = async (logData) => {
+                    // Get Data
+                    let modifiedLogs = modifyData(logData);
 
-                self.logArray(modifiedLogs);
-            };
+                    self.logArray(modifiedLogs);
+                };
 
-            const modifyData = (logData) => {
-                let Accounts = [];
+                const modifyData = (logData) => {
+                    let Accounts = [];
 
-                logData.forEach(log => {
-                    Accounts.push({ accountId: log._id, account: log.account, user: log.user, server: log.server, aisVersion: log.aisVersion, action: log.action });
-                });
-
-                return Accounts;
-            };
-
-            const getData = async(days) => {
-                let Logs = new Service('POST', 'http://localhost:3001/readactivity', days, 'application/json');
-
-                let logs = Logs.onLoadLogData();
-
-                return logs.done((data) => {
-                    return data;
-                });
-
-                return logs.fail(function(jqXHR, textStatus) {
-                    return [];
-                    alert("Request failed: " + textStatus);
-                });
-            };
-            const filter = function() {
-                self.highlightChars = [];
-                var filter = document.getElementById('filter').rawValue;
-                if (filter.length == 0) {
-                    self.clearClick();
-                    return;
-                }
-                var filterArray = [];
-                var i, id;
-                for (i = self.logArray().length - 1; i >= 0; i--) {
-                    id = self.logArray()[i].accountId;
-                    Object.keys(self.logArray()[i]).forEach(function(field) {
-                        if (self.logArray()[i][field].toString().toLowerCase().indexOf(filter.toLowerCase()) >= 0) {
-                            self.highlightChars[id] = self.highlightChars[id] || {};
-                            self.highlightChars[id][field] = getHighlightCharIndexes(filter, self.logArray()[i][field]);
-                            if (filterArray.indexOf(self.logArray()[i]) < 0) {
-                                filterArray.push(self.logArray()[i]);
-                            }
-                        }
+                    logData.forEach(log => {
+                        Accounts.push({
+                            accountId: log._id,
+                            account: log.account,
+                            user: log.user,
+                            server: log.server,
+                            aisVersion: log.aisVersion,
+                            action: log.action
+                        });
                     });
-                }
-                filterArray.reverse();
-                self.dataprovider(new oj.ArrayDataProvider(filterArray, { idAttribute: 'accountId' }));
 
-                function getHighlightCharIndexes(highlightChars, text) {
-                    var highlightCharStartIndex = text.toString().toLowerCase().indexOf(highlightChars.toString().toLowerCase());
-                    return { startIndex: highlightCharStartIndex, length: highlightChars.length };
+                    return Accounts;
+                };
+
+                const getData = async (days) => {
+                    let Logs = new Service('POST', 'http://localhost:3001/readactivity', days, 'application/json');
+
+                    let logs = Logs.onLoadLogData();
+
+                    return logs.done((data) => {
+                        return data;
+                    });
+
+                    return logs.fail(function (jqXHR, textStatus) {
+                        return [];
+                        alert("Request failed: " + textStatus);
+                    });
+                };
+                const filter = function () {
+                    self.highlightChars = [];
+                    var filter = document.getElementById('filter').rawValue;
+                    if (filter.length == 0) {
+                        self.clearClick();
+                        return;
+                    }
+                    var filterArray = [];
+                    var i, id;
+                    for (i = self.logArray().length - 1; i >= 0; i--) {
+                        id = self.logArray()[i].accountId;
+                        Object.keys(self.logArray()[i]).forEach(function (field) {
+                            if (self.logArray()[i][field].toString().toLowerCase().indexOf(filter.toLowerCase()) >= 0) {
+                                self.highlightChars[id] = self.highlightChars[id] || {};
+                                self.highlightChars[id][field] = getHighlightCharIndexes(filter, self.logArray()[i][field]);
+                                if (filterArray.indexOf(self.logArray()[i]) < 0) {
+                                    filterArray.push(self.logArray()[i]);
+                                }
+                            }
+                        });
+                    }
+                    filterArray.reverse();
+                    self.dataprovider(new oj.ArrayDataProvider(filterArray, {
+                        idAttribute: 'accountId'
+                    }));
+
+                    function getHighlightCharIndexes(highlightChars, text) {
+                        var highlightCharStartIndex = text.toString().toLowerCase().indexOf(highlightChars.toString().toLowerCase());
+                        return {
+                            startIndex: highlightCharStartIndex,
+                            length: highlightChars.length
+                        };
+                    };
+                };
+
+                const clearSearch = function (data, event) {
+                    try {
+                        self.filter('');
+                        self.dataprovider(new oj.ArrayDataProvider(self.logArray, {
+                            idAttribute: 'accountId'
+                        }));
+                        self.highlightChars = [];
+                        document.getElementById('filter').value = "";
+                        return true;
+                    } catch (error) {
+                        // console.log(error);
+                    }
+                };
+
+                const clearDefaultSearch = function (data, event) {
+                    try {
+                        self.filter('');
+                        self.highlightChars = [];
+                        document.getElementById('filter').value = "";
+                        return true;
+                    } catch (error) {
+                        // console.log(error);
+                    }
+                };
+
+                const cellRenderer = function (context) {
+                    var id = context.row.accountId;
+                    var startIndex = null;
+                    var length = null;
+                    var field = null;
+                    if (context.columnIndex === 0) {
+                        field = 'account';
+                    } else if (context.columnIndex === 1) {
+                        field = 'user';
+                    } else if (context.columnIndex === 2) {
+                        field = 'server';
+                    } else if (context.columnIndex === 3) {
+                        field = 'aisVersion';
+                    } else if (context.columnIndex === 4) {
+                        field = 'action';
+                    }
+                    var data = context.row[field].toString();
+                    if (self.highlightChars[id] != null &&
+                        self.highlightChars[id][field] != null) {
+                        startIndex = self.highlightChars[id][field].startIndex;
+                        length = self.highlightChars[id][field].length;
+                    }
+                    if (startIndex != null &&
+                        length != null) {
+                        var highlightedSegment = data.substr(startIndex, length);
+                        data = data.substr(0, startIndex) + '<b>' + highlightedSegment + '</b>' + data.substr(startIndex + length, data.length - 1);
+                    }
+                    $(context.cellContext.parentElement).append(data);
+                };
+
+                const parseTableData = function () {
+                    return [{
+                            headerText: 'Account',
+                            renderer: self.highlightingCellRenderer
+                        },
+                        {
+                            headerText: 'User',
+                            renderer: self.highlightingCellRenderer
+                        },
+                        {
+                            headerText: 'Server',
+                            renderer: self.highlightingCellRenderer
+                        },
+                        {
+                            headerText: 'AIS Version',
+                            renderer: self.highlightingCellRenderer
+                        },
+                        {
+                            headerText: 'Action',
+                            renderer: self.highlightingCellRenderer
+                        }
+                    ];
+                }
+                return {
+                    initialiseTable,
+                    filter,
+                    clearSearch,
+                    clearDefaultSearch,
+                    cellRenderer,
+                    parseTableData
                 };
             };
 
-            const clearSearch = function(data, event) {
-                try {
-                    self.filter('');
-                    self.dataprovider(new oj.ArrayDataProvider(self.logArray, { idAttribute: 'accountId' }));
-                    self.highlightChars = [];
-                    document.getElementById('filter').value = "";
-                    return true;
-                } catch (error) {
-                    // console.log(error);
-                }
-            };
+            self.handleValueChanged = AccountFunctions().filter;
 
-            const clearDefaultSearch = function(data, event) {
-                try {
-                    self.filter('');
-                    self.highlightChars = [];
-                    document.getElementById('filter').value = "";
-                    return true;
-                } catch (error) {
-                    // console.log(error);
-                }
-            };
+            self.clearClick = AccountFunctions().clearSearch;
 
-            const cellRenderer = function(context) {
-                var id = context.row.accountId;
-                var startIndex = null;
-                var length = null;
-                var field = null;
-                if (context.columnIndex === 0) {
-                    field = 'account';
-                } else if (context.columnIndex === 1) {
-                    field = 'user';
-                } else if (context.columnIndex === 2) {
-                    field = 'server';
-                } else if (context.columnIndex === 3) {
-                    field = 'aisVersion';
-                } else if (context.columnIndex === 4) {
-                    field = 'action';
-                }
-                var data = context.row[field].toString();
-                if (self.highlightChars[id] != null &&
-                    self.highlightChars[id][field] != null) {
-                    startIndex = self.highlightChars[id][field].startIndex;
-                    length = self.highlightChars[id][field].length;
-                }
-                if (startIndex != null &&
-                    length != null) {
-                    var highlightedSegment = data.substr(startIndex, length);
-                    data = data.substr(0, startIndex) + '<b>' + highlightedSegment + '</b>' + data.substr(startIndex + length, data.length - 1);
-                }
-                $(context.cellContext.parentElement).append(data);
-            };
+            self.highlightingCellRenderer = AccountFunctions().cellRenderer;
 
-            const parseTableData = function() {
-                return [{
-                        headerText: 'Account',
-                        renderer: self.highlightingCellRenderer
-                    },
-                    {
-                        headerText: 'User',
-                        renderer: self.highlightingCellRenderer
-                    },
-                    {
-                        headerText: 'Server',
-                        renderer: self.highlightingCellRenderer
-                    },
-                    {
-                        headerText: 'AIS Version',
-                        renderer: self.highlightingCellRenderer
-                    },
-                    {
-                        headerText: 'Action',
-                        renderer: self.highlightingCellRenderer
-                    }
-                ];
-            }
-            return {
-                initialiseTable,
-                filter,
-                clearSearch,
-                clearDefaultSearch,
-                cellRenderer,
-                parseTableData
-            };
-        };
-
-        self.handleValueChanged = AccountFunctions().filter;
-
-        self.clearClick = AccountFunctions().clearSearch;
-
-        self.highlightingCellRenderer = AccountFunctions().cellRenderer;
-
-        self.columnArray = AccountFunctions().parseTableData();
+            self.columnArray = AccountFunctions().parseTableData();
 
             // EXCEL EXPORT
             self.exportFile = () => {
@@ -209,7 +225,11 @@ define(
                         let actionName = action;
                         let actionValue = actions[action];
 
-                        let actionObj = { name: actionName, items: [actionValue], pieSliceExplode: 0 };
+                        let actionObj = {
+                            name: actionName,
+                            items: [actionValue],
+                            pieSliceExplode: 0
+                        };
                         pieSeries.push(actionObj);
                     };
 
@@ -224,7 +244,7 @@ define(
 
             self.hiddenCategories = ko.observableArray([]);
 
-            context.props.then(function(propertyMap) {
+            context.props.then(function (propertyMap) {
                 //Store a reference to the properties for any later use
                 self.properties = propertyMap;
 
