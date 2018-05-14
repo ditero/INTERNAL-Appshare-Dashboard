@@ -23,6 +23,8 @@ define([
     var self = this;
     self.nowrap = ko.observable(false);
 
+    $("body").css("overflow", "hidden");
+
     // LOADING
     self.loadingValue = ko.observable("Loading...");
 
@@ -85,9 +87,20 @@ define([
       return this.isSmall() ? "top" : "start";
     }, this);
 
+    // pull in config data
+    serviceworker
+      .getConfigData("GET", "//appsharebackend.steltix.com/readconfig")
+      .done(config => {
+
+        console.log(config);
+      });
+
+
+    ///////////////////////////////////////
+
     // retreiving data from backend service
     serviceworker
-      .getLogData("GET", "//localhost:3001/readactivity")
+      .getLogData("GET", "//appsharebackend.steltix.com/readactivity")
       .done(logs => {
         loading('data');
 
@@ -243,6 +256,8 @@ define([
             clearInterval(loader);
             $("#overlay").fadeOut('slow');
             loading('finished');
+            $("body").css("overflow", "auto");
+
           }, 5000);
         };
       }, 500);
