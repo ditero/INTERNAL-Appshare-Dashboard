@@ -9,7 +9,6 @@ define([
   "ojs/ojformlayout",
   "ojs/ojselectcombobox",
   "ojs/ojdatetimepicker",
-  'ojs/ojprogress',
   "ojs/ojbutton",
   "ojs/ojtimezonedata",
   "ojs/ojlabel",
@@ -23,6 +22,11 @@ define([
   function DashboardViewModel() {
     var self = this;
     self.nowrap = ko.observable(false);
+
+    $("body").css("overflow", "hidden");
+
+    // LOADING
+    self.loadingValue = ko.observable("Loading...");
 
     ///   LOG DATE
     // Filter Functionality
@@ -70,7 +74,6 @@ define([
       }
       counter++;
     };
-    ////////////////////
 
     self.isSmall = oj.ResponsiveKnockoutUtils.createMediaQueryObservable(
       oj.ResponsiveUtils.getFrameworkQuery(
@@ -84,10 +87,23 @@ define([
       return this.isSmall() ? "top" : "start";
     }, this);
 
+    // pull in config data
+    serviceworker
+      .getConfigData("GET", "//appsharebackend.steltix.com/readconfig")
+      .done(config => {
+
+        console.log(config);
+      });
+
+
+    ///////////////////////////////////////
+
     // retreiving data from backend service
     serviceworker
-      .getLogData("GET", "//localhost:3001/readactivity")
+      .getLogData("GET", "//appsharebackend.steltix.com/readactivity")
       .done(logs => {
+        loading('data');
+
         self.logs(logs);
         rawData = logs;
         self.accounts([]);
@@ -99,40 +115,21 @@ define([
         let accountList = {};
 
         self.logs().forEach(log => {
+          if (!log.account) {
+            log.account = "Unregistered Account";
+          };
           if (accountList[log.account] === undefined) {
-            if (log.account !== "") {
-              accountList[log.account] = 1;
-              let fChar = log.account.substring(1, 0).toUpperCase();
-              let oChar = log.account.slice(1);
-              self.accounts.push({
-                value: fChar + oChar,
-                label: fChar + oChar,
-                disabled: false
-              });
-            }
-          }
+            accountList[log.account] = 1;
+            let fChar = log.account.substring(1, 0).toUpperCase();
+            let oChar = log.account.slice(1);
+            self.accounts.push({
+              value: fChar + oChar,
+              label: fChar + oChar,
+              disabled: false
+            });
+          };
         });
       });
-    self.progressValue = ko.observable(0);
-
-    var proBar = function () {
-      if (rawData.length == 0) {
-        $("#mainDiv").hide();
-        self.progressValue(self.progressValue() + 1);
-        //   console.log($("#blockOne")[0].outerText.length)
-
-      } else if (self.logs().length !== 0) {
-        //   console.log($("#blockOne")[0].outerText.length)                        
-        $("#mainDiv").show();
-        $("#progressBar").remove();
-
-
-      }
-      // console.log($("#blockOne")[0].outerText.length)
-
-
-    };
-    setInterval(proBar, 10)
 
     const getParams = (url, query) => {
       try {
@@ -233,6 +230,39 @@ define([
         };
       }
     };
+
+    const loading = (message) => {
+      switch (message) {
+        case "components":
+          self.loadingValue("Loading Dashboard Components...");
+          break;
+        case "data":
+          self.loadingValue("Loading Dashboard Data...");
+          break;
+        case "finished":
+          self.loadingValue("Finished...");
+          break;
+        default:
+          break;
+      };
+    };
+
+    $(document).ready(function () {
+      let totalLogs = $("#totalLogs");
+      const loader = setInterval(function () {
+        if (self.logs().length > 0) {
+          loading('components');
+          setTimeout(function () {
+            clearInterval(loader);
+            $("#overlay").fadeOut('slow');
+            loading('finished');
+            $("body").css("overflow", "auto");
+
+          }, 5000);
+        };
+      }, 500);
+    });
+
   }
   return new DashboardViewModel();
 });
