@@ -7,6 +7,9 @@
     "properties": {
         "data": {
             "type": "observable"
+        },
+        "config": {
+            "type": "object "
         }
     },
     "methods": {

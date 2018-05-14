@@ -38,7 +38,11 @@ define([
     self.val = ko.observable();
     self.isDisabled = ko.observable(false);
     self.accounts = ko.observableArray([]);
+    let accountsArray = [];
+
     self.logs = ko.observableArray();
+    self.configData = ko.observableArray();
+
     var rawData = [];
 
     self.selectedValue = event => {
@@ -87,12 +91,14 @@ define([
       return this.isSmall() ? "top" : "start";
     }, this);
 
+    ///////////////////////////////////////////////////
+
     // pull in config data
     serviceworker
       .getConfigData("GET", "//appsharebackend.steltix.com/readconfig")
       .done(config => {
 
-        console.log(config);
+        self.configData(config);
       });
 
 
@@ -106,30 +112,101 @@ define([
 
         self.logs(logs);
         rawData = logs;
-        self.accounts([]);
-        self.accounts.push({
-          value: "All Accounts",
-          label: "All Accounts",
-          disabled: false
-        });
-        let accountList = {};
 
-        self.logs().forEach(log => {
-          if (!log.account) {
-            log.account = "Unregistered Account";
-          };
-          if (accountList[log.account] === undefined) {
-            accountList[log.account] = 1;
-            let fChar = log.account.substring(1, 0).toUpperCase();
-            let oChar = log.account.slice(1);
-            self.accounts.push({
-              value: fChar + oChar,
-              label: fChar + oChar,
-              disabled: false
+        buildDropDownList(true);
+      });
+
+    const buildDropDownList = (configData = false) => {
+      self.accounts([]);
+      self.accounts.push({
+        value: "All Accounts",
+        label: "All Accounts",
+        disabled: false
+      });
+      let accountList = {};
+
+      if (configData) {
+        try {
+          if (self.configData().accounts.length > 0) {
+            let accountTest = {};
+
+            self.logs().forEach((log) => {
+              if (log.account) {
+                if (accountTest[log.account] === undefined) {
+                  accountTest[log.account] = "";
+                  accountsArray.push({
+                    account: log.account,
+                    description: ""
+                  })
+                }
+              } else if (!log.account) {
+                log.account = "Unregistered Account";
+
+                if (accountTest[log.account] === undefined) {
+                  accountTest[log.account] = "Unregistered Account";
+                  accountsArray.push({
+                    account: "Unregistered Account",
+                    value: "Unregistered Account"
+                  })
+                }
+              }
+            });
+
+            accountsArray.forEach(acc => {
+              let currentAcc = acc.account;
+
+              self.configData().accounts.forEach(account => {
+                let currentAccountId = account.id;
+                if (currentAcc === currentAccountId) {
+                  acc.description = account.description;
+                };
+              });
+
+              self.accounts.push({
+                value: currentAcc,
+                label: acc.description,
+                disabled: false
+              });
+            });
+          } else {
+            console.log('no accounts found');
+            self.logs().forEach(log => {
+              if (!log.account) {
+                log.account = "Unregistered Account";
+              };
+              if (accountList[log.account] === undefined) {
+                accountList[log.account] = 1;
+                let fChar = log.account.substring(1, 0).toUpperCase();
+                let oChar = log.account.slice(1);
+                self.accounts.push({
+                  value: fChar + oChar,
+                  label: fChar + oChar,
+                  disabled: false
+                });
+              };
             });
           };
-        });
-      });
+        } catch (error) {
+          alert('No Config Data Found. Viewing Log Data Only');
+          self.logs().forEach(log => {
+            if (!log.account) {
+              log.account = "Unregistered Account";
+            };
+            if (accountList[log.account] === undefined) {
+              accountList[log.account] = 1;
+              let fChar = log.account.substring(1, 0).toUpperCase();
+              let oChar = log.account.slice(1);
+              self.accounts.push({
+                value: fChar + oChar,
+                label: fChar + oChar,
+                disabled: false
+              });
+            };
+          });
+        };
+
+      };
+    };
 
     const getParams = (url, query) => {
       try {

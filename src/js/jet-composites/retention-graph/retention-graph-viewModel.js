@@ -32,13 +32,14 @@ define(
             if (context.properties) {
                 //Parse your component properties here 
                 setTimeout(() => {
-                    new RetentionGraph(context.properties.data);
-                    self.data(context.properties.data);
+                    new RetentionGraph(context.properties.config);
+                    self.data(context.properties.config);
 
                     setInterval(() => {
-                        if (context.properties.data !== self.data()) {
-                            self.data(context.properties.data);
-                            new RetentionGraph(context.properties.data);
+                        if (context.properties.config !== self.data()) {
+                            console.log(context.properties)
+                            self.data(context.properties.config);
+                            new RetentionGraph(context.properties.config);
                         }
                     }, 1000)
                 }, 1000)

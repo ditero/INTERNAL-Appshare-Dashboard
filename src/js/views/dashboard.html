@@ -170,7 +170,7 @@
         </div>
         <div style=" background-color: #ffff;   height:100%; margin-left: 5px; margin-bottom: 6px;" class="oj-sm-12 oj-md-4  oj-lg-4 oj-flex-item">
             <div id="log-dates">
-                <retention-graph data="{{logs}}"></retention-graph>
+                <retention-graph data="{{configData}}"></retention-graph>
             </div>
         </div>
         <div style="background-color: #ffff; height:100%; margin-left: 5px; margin-bottom: 5px;" class="oj-sm-12 oj-md-12  oj-lg-6 oj-flex-item module">
@@ -202,7 +202,7 @@
             <modules-graph data="{{logs}}"></modules-graph>
         </div>
         <div style="background-color: #ffff; height:100%; margin-left: 10px; margin-bottom: 6px;" class="oj-sm-12 oj-md-12  oj-lg-5 oj-flex-item">
-            <account-graph data="{{logs}}"></account-graph>
+            <account-graph data="{{logs}}" config="{{configData}}"></account-graph>
         </div>
     </div>
 </div>

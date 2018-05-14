@@ -30,6 +30,8 @@ define(
                     let modifiedLogs = modifyData(logData);
 
                     self.logArray(modifiedLogs);
+                    // console.log(logData)
+
                 };
 
                 const modifyData = (logData) => {
@@ -253,10 +255,9 @@ define(
                     AccountFunctions().initialiseTable(self.properties.data);
                     actionChart.initialiseChart(self.properties.data);
                     self.data(self.properties.data);
-
+                    console.log(self.properties);
                     setInterval(() => {
                         if (self.properties.data !== self.data()) {
-
                             AccountFunctions().initialiseTable(self.properties.data);
                             actionChart.initialiseChart(self.properties.data);
                             self.data(self.properties.data);

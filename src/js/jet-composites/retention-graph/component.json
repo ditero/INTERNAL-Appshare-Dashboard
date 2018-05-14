@@ -5,6 +5,9 @@
   "version": "1.0.0",
   "jetVersion": "5.0.0",
   "properties": {
+    "config": {
+      "type": "array"
+    }
   },
   "methods": {
 
