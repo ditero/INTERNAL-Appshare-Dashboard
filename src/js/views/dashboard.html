@@ -169,9 +169,23 @@
             <mobile-graph data={{logs}}></mobile-graph>
         </div>
         <div style=" background-color: #ffff;   height:100%; margin-left: 5px; margin-bottom: 6px;" class="oj-sm-12 oj-md-4  oj-lg-4 oj-flex-item">
-            <div id="log-dates">
-                <retention-graph data="{{logs}}"></retention-graph>
-            </div>
+            <!-- <div id="log-dates">
+                <retention-graph data="{{configLogs}}"></retention-graph>
+            </div> -->
+            <div class="oj-flex oj-sm-flex-direction-column">
+                <div class="oj-flex-item">
+                  <h3 id="title">Retention Days</h3>
+                </div>
+              </div>
+            
+              <hr>
+            <div class="rentention-container">
+                <oj-status-meter-gauge id="gauge8" min="0" max="100" value="{{configLogs}}" start-angle="180" angle-extent="180"
+                  orientation="circular" class="circular-status-meter-common circular-status-meter-large">
+                </oj-status-meter-gauge>
+            
+              </div>
+            
         </div>
         <div style="background-color: #ffff; height:100%; margin-left: 5px; margin-bottom: 5px;" class="oj-sm-12 oj-md-12  oj-lg-6 oj-flex-item module">
             <div id="filterCustomers">

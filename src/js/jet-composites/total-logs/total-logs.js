@@ -19,7 +19,7 @@ define(
             function initialiseGauge(data) {
                 let totalLogs = Number(data.length);
                 self.logs(totalLogs);
-
+                console.log(self.logs())
                 let appCustomers = {};
 
                 data.forEach((log) => {

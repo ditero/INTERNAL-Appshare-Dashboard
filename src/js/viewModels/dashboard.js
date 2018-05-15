@@ -17,7 +17,7 @@ define([
   "jet-composites/mobile-graph/loader",
   "jet-composites/mobile-graph/loader",
   "jet-composites/total-logs/loader",
-  'jet-composites/retention-graph/loader'
+  'jet-composites/retention-graph/loader',
 ], function (oj, ko, $) {
   function DashboardViewModel() {
     var self = this;
@@ -39,6 +39,10 @@ define([
     self.isDisabled = ko.observable(false);
     self.accounts = ko.observableArray([]);
     self.logs = ko.observableArray();
+    self.configLogs = ko.observable();
+    
+    self.noOfRententionDays = ko.observable(31);
+    // console.log(self.configLogs(serviceworker));
     var rawData = [];
 
     self.selectedValue = event => {
@@ -91,8 +95,10 @@ define([
     serviceworker
       .getConfigData("GET", "//appsharebackend.steltix.com/readconfig")
       .done(config => {
+        let gauge = Number(config.activityRetentionDays);
+        self.configLogs(gauge);
 
-        console.log(config);
+        console.log(self.configLogs());
       });
 
 
@@ -230,6 +236,40 @@ define([
         };
       }
     };
+
+    // const retentionFilter = (retentionDays, queryAccount) => {
+    //   let filteredData = [];
+    //   let queryAcc = queryAccount.toLowerCase();
+
+
+
+    //   if (retentionDays) {
+    //     let days = retentionDays;
+    //     if (days === "all days" && queryAcc === 'all accounts') {
+    //       self.logs(rawData);
+    //     } else if (date !== 'all days' && queryAcc === 'all accounts') {
+    //       rawData.filter(log => {
+    //         let logDate = log.datetime;
+    //         let modifiedLogDate = new Date(logDate).toLocaleDateString();
+
+    //         if (modifiedLogDate === date) {
+    //           filteredData.push(log);
+    //         };
+    //       });
+    //       self.logs(filteredData);
+    //     } else if (date !== 'all days' && queryAcc !== 'all accounts') {
+    //       rawData.filter(log => {
+    //         let logDate = log.datetime;
+    //         let modifiedLogDate = new Date(logDate).toLocaleDateString();
+
+    //         if (modifiedLogDate === date && log.account.toLowerCase() === queryAcc) {
+    //           filteredData.push(log);
+    //         };
+    //       });
+    //       self.logs(filteredData);
+    //     };
+    //   }
+    // };
 
     const loading = (message) => {
       switch (message) {

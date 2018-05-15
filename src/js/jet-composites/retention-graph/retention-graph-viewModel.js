@@ -22,28 +22,31 @@ define(
 
 
             // RETENTION DAYS
-            self.data = ko.observableArray();
-            self.noOfRententionDays = ko.observable(80);
+            self.logs = ko.observableArray([]);
+            self.noOfRententionDays = ko.observable();
 
-            const RetentionGraph = function (logs) {
+            function RetentionGraph (logs) {
+                console.log('liwa')
                 console.log(logs);
+                self.noOfRententionDays(logs.activityRetentionDays);
             };
 
             if (context.properties) {
                 //Parse your component properties here 
                 setTimeout(() => {
-                    new RetentionGraph(context.properties.data);
+                    RetentionGraph(context.properties.data);
                     self.data(context.properties.data);
 
                     setInterval(() => {
                         if (context.properties.data !== self.data()) {
                             self.data(context.properties.data);
-                            new RetentionGraph(context.properties.data);
+                            RetentionGraph(context.properties.data);
                         }
+                        console.log(self.logs());
                     }, 1000)
                 }, 1000)
             }
-
+            
             //Once all startup and async activities have finished, relocate if there are any async activities
             self.busyResolve();
         };
