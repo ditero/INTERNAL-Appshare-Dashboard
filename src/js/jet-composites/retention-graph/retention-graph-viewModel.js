@@ -20,29 +20,32 @@ define(
 
             self.composite = context.element;
 
-
             // RETENTION DAYS
             self.data = ko.observableArray();
             self.noOfRententionDays = ko.observable(80);
 
             const RetentionGraph = function (logs) {
-                console.log(logs);
+                let retentionDays = Number(logs.activityRetentionDays);
+
+                self.noOfRententionDays(retentionDays);
             };
 
-            if (context.properties) {
+            if (context.props) {
                 //Parse your component properties here 
-                setTimeout(() => {
-                    new RetentionGraph(context.properties.config);
-                    self.data(context.properties.config);
+                context.props
+                    .then((props) => {
+                        setTimeout(() => {
+                            new RetentionGraph(props.config);
+                            self.data(props.config);
+                            setInterval(() => {
+                                if (props.config !== self.data()) {
+                                    self.data(props.config);
+                                    new RetentionGraph(props.config);
+                                }
+                            }, 1000)
+                        }, 1000)
+                    })
 
-                    setInterval(() => {
-                        if (context.properties.config !== self.data()) {
-                            console.log(context.properties)
-                            self.data(context.properties.config);
-                            new RetentionGraph(context.properties.config);
-                        }
-                    }, 1000)
-                }, 1000)
             }
 
             //Once all startup and async activities have finished, relocate if there are any async activities

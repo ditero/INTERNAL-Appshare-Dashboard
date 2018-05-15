@@ -18,6 +18,7 @@ define(
             self.filter = ko.observable();
             self.logArray = ko.observableArray([]);
             self.data = ko.observableArray();
+            self.configData = ko.observableArray();
             self.logArray = ko.observableArray([]);
             self.dataprovider = new ko.observable(new oj.ArrayDataProvider(self.logArray, {
                 idAttribute: 'accountId'
@@ -25,19 +26,40 @@ define(
 
             /// ACCOUNTS TABLE
             const AccountFunctions = () => {
-                const initialiseTable = async (logData) => {
+                const initialiseTable = async (logData, configData) => {
                     // Get Data
-                    let modifiedLogs = modifyData(logData);
+                    let modifiedLogs = modifyData(logData, configData);
 
                     self.logArray(modifiedLogs);
-                    // console.log(logData)
-
                 };
 
-                const modifyData = (logData) => {
+                const modifyData = (logData, configData) => {
                     let Accounts = [];
+                    let accountsArray = [];
+                    let accounts = {};
+
 
                     logData.forEach(log => {
+                        if (log.account) {
+                            if (accounts[log.account] === undefined) {
+                                accounts[log.account] = 1;
+                                accountsArray.push({
+                                    account: log.account,
+                                    description: ""
+                                });
+                            };
+                        } else if (!log.account) {
+                            log.account = "Unregistered Account";
+
+                            if (accounts[log.account] === undefined) {
+                                accounts[log.account] = "Unregistered Account";
+                                accountsArray.push({
+                                    account: "Unregistered Account",
+                                    value: "Unregistered Account"
+                                })
+                            };
+                        };
+
                         Accounts.push({
                             accountId: log._id,
                             account: log.account,
@@ -46,6 +68,17 @@ define(
                             aisVersion: log.aisVersion,
                             action: log.action
                         });
+                    });
+
+                    Accounts.forEach((acc) => {
+                        let currentAcc = acc.account;
+
+                        configData.accounts.forEach(configAcc => {
+                            if (configAcc.id === currentAcc) {
+                                acc.account = configAcc.description;
+                            }
+                        });
+
                     });
 
                     return Accounts;
@@ -252,15 +285,18 @@ define(
 
 
                 setTimeout(() => {
-                    AccountFunctions().initialiseTable(self.properties.data);
+                    AccountFunctions().initialiseTable(self.properties.data, self.properties.config);
                     actionChart.initialiseChart(self.properties.data);
                     self.data(self.properties.data);
-                    console.log(self.properties);
+                    self.configData(self.properties.config);
+
                     setInterval(() => {
-                        if (self.properties.data !== self.data()) {
-                            AccountFunctions().initialiseTable(self.properties.data);
+                        if (self.properties.data !== self.data() || self.properties.config !== self.configData()) {
+                            AccountFunctions().initialiseTable(self.properties.data, self.properties.config);
                             actionChart.initialiseChart(self.properties.data);
                             self.data(self.properties.data);
+                            self.configData(self.properties.config);
+
                             AccountFunctions().clearDefaultSearch();
                         }
                     }, 1000)
