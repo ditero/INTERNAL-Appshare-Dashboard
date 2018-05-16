@@ -95,9 +95,8 @@ define([
 
     // pull in config data
     serviceworker
-      .getConfigData("GET", "//localhost:3001/readconfig")
+      .getConfigData("GET", "//appsharebackend.steltix.com/readconfig")
       .done(config => {
-
         self.configData(config);
       });
 
@@ -106,7 +105,7 @@ define([
 
     // retreiving data from backend service
     serviceworker
-      .getLogData("GET", "//localhost:3001/readactivity")
+      .getLogData("GET", "//appsharebackend.steltix.com/readactivity")
       .done(logs => {
         loading('data');
 
@@ -187,7 +186,7 @@ define([
             });
           };
         } catch (error) {
-          alert('No Config Data Found. Viewing Log Data Only');
+          console.log('No Config Data Found. Viewing Log Data Only');
           self.logs().forEach(log => {
             if (!log.account) {
               log.account = "Unregistered Account";
