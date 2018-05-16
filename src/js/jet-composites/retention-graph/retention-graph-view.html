@@ -14,6 +14,10 @@
     display: flex;
     justify-content: center;
   }
+
+  .hidden {
+    display: none;
+  }
 </style>
 
 <div>
@@ -31,4 +35,6 @@
       orientation="circular" class="circular-status-meter-common circular-status-meter-large" readonly>
     </oj-status-meter-gauge>
 
+    <!-- Messages -->
+    <span class="hidden" id="error">Error loading data</span>
   </div>

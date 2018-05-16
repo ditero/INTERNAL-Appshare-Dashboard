@@ -35,45 +35,60 @@ define(
                 let modules = [];
                 barSeries = [];
 
-                // filter for modules in log data
-                logs.forEach(log => {
-                    if (log.module !== "00000") {
-                        if (moduleIDs[log.module] === undefined) {
-                            moduleIDs[log.module] = "";
-                            modules.push({
-                                id: log.module,
-                                description: ""
-                            });
-                        };
-                    };
-                });
 
-                // match the log data modules with right description in config data
-                modules.forEach(module => {
-                    let cModule = module.id;
-
-                    config.modules.forEach(config => {
-                        if (config.id === cModule) {
-                            module.description = config.description;
-                        };
-                    });
-                });
-
-
-                // count the number of logs in total for each module
-                logs.forEach(log => {
-                    modules.forEach(module => {
-                        if (module.id === log.module) {
-                            if (module.description !== "") {
-                                if (moduleNames[module.description] === undefined) {
-                                    moduleNames[module.description] = 1;
-                                } else {
-                                    moduleNames[module.description] += 1;
-                                };
+                try {
+                    // filter for modules in log data
+                    logs.forEach(log => {
+                        if (log.module !== "00000") {
+                            if (moduleIDs[log.module] === undefined) {
+                                moduleIDs[log.module] = "";
+                                modules.push({
+                                    id: log.module,
+                                    description: ""
+                                });
                             };
                         };
                     });
-                });
+
+                    // match the log data modules with right description in config data
+                    modules.forEach(module => {
+                        let cModule = module.id;
+
+                        config.modules.forEach(config => {
+                            if (config.id === cModule) {
+                                module.description = config.description;
+                            };
+                        });
+                    });
+
+
+                    // count the number of logs in total for each module
+                    logs.forEach(log => {
+                        modules.forEach(module => {
+                            if (module.id === log.module) {
+                                if (module.description !== "") {
+                                    if (moduleNames[module.description] === undefined) {
+                                        moduleNames[module.description] = 1;
+                                    } else {
+                                        moduleNames[module.description] += 1;
+                                    };
+                                };
+                            };
+                        });
+                    });
+
+                } catch (error) {
+                    // filter for modules in log data
+                    logs.forEach(log => {
+                        if (log.module !== "00000") {
+                            if (moduleNames[log.moduleDescription] === undefined) {
+                                moduleNames[log.moduleDescription] = 1;
+                            } else {
+                                moduleNames[log.moduleDescription] += 1
+                            };
+                        };
+                    });
+                }
 
 
                 // assign the modules and logs onto the bar graph

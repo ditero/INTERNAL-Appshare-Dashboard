@@ -70,16 +70,21 @@ define(
                         });
                     });
 
-                    Accounts.forEach((acc) => {
-                        let currentAcc = acc.account;
+                    try {
+                        Accounts.forEach((acc) => {
+                            let currentAcc = acc.account;
 
-                        configData.accounts.forEach(configAcc => {
-                            if (configAcc.id === currentAcc) {
-                                acc.account = configAcc.description;
-                            }
+                            configData.accounts.forEach(configAcc => {
+                                if (configAcc.id === currentAcc) {
+                                    acc.account = configAcc.description;
+                                }
+                            });
+
                         });
+                    } catch (error) {
+                        return Accounts;
+                    }
 
-                    });
 
                     return Accounts;
                 };

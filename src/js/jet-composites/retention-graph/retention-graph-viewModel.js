@@ -24,10 +24,25 @@ define(
             self.data = ko.observableArray();
             self.noOfRententionDays = ko.observable(80);
 
-            const RetentionGraph = function (logs) {
-                let retentionDays = Number(logs.activityRetentionDays);
 
-                self.noOfRententionDays(retentionDays);
+            // Error Messages
+
+
+            const RetentionGraph = function (logs) {
+                $('#gauge8').removeClass('hidden');
+                $("#error").addClass('hidden');
+
+
+                if (logs.activityRetentionDays) {
+
+                    let retentionDays = Number(logs.activityRetentionDays);
+
+                    self.noOfRententionDays(retentionDays);
+                } else {
+                    $('#gauge8').addClass('hidden');
+                    $("#error").removeClass('hidden');
+                }
+
             };
 
             if (context.props) {

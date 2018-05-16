@@ -4,7 +4,7 @@
 */
 define(
     ['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojknockout', 'ojs/ojgauge'],
-    function(oj, ko, $) {
+    function (oj, ko, $) {
         'use strict';
 
         function TotalLogsComponentModel(context) {
@@ -14,7 +14,11 @@ define(
             self.logs = ko.observable(0);
             self.customers = ko.observable(0);
             self.data = ko.observableArray([]);
-            self.thresholdValues = [{ max: 33 }, { max: 67 }, {}];
+            self.thresholdValues = [{
+                max: 33
+            }, {
+                max: 67
+            }, {}];
 
             function initialiseGauge(data) {
                 let totalLogs = Number(data.length);
@@ -29,7 +33,7 @@ define(
                 });
             };
 
-            context.props.then(function(propertyMap) {
+            context.props.then(function (propertyMap) {
                 //Store a reference to the properties for any later use
                 self.properties = propertyMap;
                 setTimeout(() => {
