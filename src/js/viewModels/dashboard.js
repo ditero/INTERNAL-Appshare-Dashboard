@@ -95,7 +95,7 @@ define([
 
     // pull in config data
     serviceworker
-      .getConfigData("GET", "//appsharebackend.steltix.com/readconfig")
+      .getConfigData("GET", "//localhost:3001/readconfig")
       .done(config => {
         self.configData(config);
       });
@@ -105,7 +105,7 @@ define([
 
     // retreiving data from backend service
     serviceworker
-      .getLogData("GET", "//appsharebackend.steltix.com/readactivity")
+      .getLogData("GET", "//localhost:3001/readactivity")
       .done(logs => {
         loading('data');
 
