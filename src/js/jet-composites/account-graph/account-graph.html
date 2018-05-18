@@ -1,11 +1,19 @@
+<style>
+    #icon {
+        margin: 3px 0px 0px 0px;
+        font-size: 24px;
+    }
+</style>
 <div class="container">
     <div id="title">
         <h1>Accounts</h1>
     </div>
 
- <hr>
+    <hr>
     <oj-button display='icons' on-click="[[exportFile]]">
-        <span title=".demo-download-icon-16" role="img" class="demo-download-icon-24 demo-icon-font"></span>
+        <span id="icon">
+            <i class="far fa-file-excel"></i>
+        </span>
         <span class="label-export">
             Export To Excel
         </span>
@@ -13,10 +21,11 @@
     <br>
 
     <br>
-    <oj-table id='accounttable' aria-label='Departments Table' data='[[dataprovider]]' scroll-policy='loadMoreOnScroll' columns-default.sortable='disabled' columns='{{columnArray}}' style='width:100%; height: 200px; border: none'>
+    <oj-table id='accounttable' aria-label='Departments Table' data='[[dataprovider]]' scroll-policy='loadMoreOnScroll' columns-default.sortable='disabled'
+        columns='{{columnArray}}' style='width:100%; height: 200px; border: none'>
     </oj-table>
 
-    <oj-chart id="pieChart" type="pie" series="[[pieSeriesValue]]" animation-on-display="auto" animation-on-data-change="auto" hidden-categories='{{hiddenCategories}}' style-defaults.data-label-position="[[dataLabelPositionValue]]"
-        style="max-width:500px;width:80%;height:380px;">
+    <oj-chart id="pieChart" type="pie" series="[[pieSeriesValue]]" animation-on-display="auto" animation-on-data-change="auto"
+        hidden-categories='{{hiddenCategories}}' style-defaults.data-label-position="[[dataLabelPositionValue]]" style="max-width:500px;width:80%;height:380px;">
     </oj-chart>
 </div>

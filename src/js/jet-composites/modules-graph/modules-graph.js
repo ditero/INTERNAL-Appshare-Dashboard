@@ -1,5 +1,5 @@
 define(
-    ['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojknockout', 'ojs/ojchart', 'serviceworker'],
+    ['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojknockout', 'ojs/ojchart', 'ojs/ojdialog', 'serviceworker'],
     function (oj, ko, $) {
         'use strict';
 
@@ -13,6 +13,10 @@ define(
 
             self.isHorizontal = ko.observableArray([]);
 
+            // log and config data store
+            self.data = ko.observableArray();
+            self.configData = ko.observableArray();
+
             // Horizontal and Vertical Bar Graph View
             self.changeChartOrientation = ko.computed(function () {
                 if (self.isHorizontal()[0] == 'Horizontal') {
@@ -22,7 +26,143 @@ define(
                 };
             }, this);
 
-            /* chart data */
+            // Modal and User per Day Graph
+            $(document).ready(() => {
+                $("#barChart").on("click", (e) => {
+                    try {
+                        let attributes = e.target.attributes["aria-label"].value;
+                        let splitLabel = attributes.split(";");
+                        let name = splitLabel[0].split(": ");
+
+                        let module = name[1];
+
+                        if (module) {
+                            self.handleOpen(module);
+                            ProccessGraphLine(self.data(), module);
+                        }
+                    } catch (error) {
+                        //   
+                    }
+
+
+                });
+            });
+
+            self.sliderValue = ko.observable(400);
+
+            self.openAnimationEffect = ko.observable("flipIn");
+
+            self.startAnimationListener = function (event) {
+                var ui = event.detail;
+                if (!$(event.target).is(".oj-dialog")) return;
+
+                if ("open" === ui.action) {
+                    event.preventDefault();
+                    var action = self.openAnimationEffect();
+                    var options = {
+                        "duration": self.sliderValue() + "ms"
+                    };
+                    if ("none" === action)
+                        ui.endCallback();
+                    else
+                        oj.AnimationUtils[action](ui.element, options).then(ui.endCallback);
+                } else if ("close" === ui.action) {
+                    event.preventDefault();
+                    ui.endCallback();
+                }
+            };
+
+            self.handleOpen = function (module) {
+                document.querySelector("#dialog1").open();
+            };
+            self.handleOKClose = function () {
+                document.querySelector("#dialog1").close();
+            };
+
+            /////////////////////////////////////////////////////////////////////
+            self.lineTitle = ko.observable();
+
+            self.orientationValueLine = ko.observable("vertical");
+
+            self.isHorizontalLine = ko.observableArray([]);
+
+            self.changeLineChartOrientation = ko.computed(function () {
+                if (self.isHorizontalLine()[0] == 'Horizontal') {
+                    self.orientationValueLine('horizontal');
+                } else {
+                    self.orientationValueLine('vertical');
+                };
+            }, this);
+
+            /* line chart data */
+            var lineSeries = [];
+            var keepData = [];
+            let counter = 0;
+            // let days = new Date().getFullYear();
+
+            var lineGroups = [];
+
+            self.lineSeriesValue = ko.observableArray(lineSeries);
+            self.lineGroupsValue = ko.observableArray(lineGroups);
+
+            const setDefaultData = () => {
+                self.lineSeriesValue();
+                self.lineGroupsValue();
+                lineSeries = [];
+                lineGroups = [];
+                keepData = [];
+                counter = 0;
+            };
+
+            function ProccessGraphLine(data, module) {
+                setDefaultData();
+
+                self.lineTitle(module);
+
+                let daysObj = {};
+
+                // console.log(self.lineGroupsValue());
+                data.forEach(log => {
+                    var daysDates = new Date(log.datetime);
+                    if (log.moduleDescription === module) {
+                        if (daysObj[daysDates.toDateString()] === undefined) {
+                            daysObj[daysDates.toDateString()] = {
+                                value: 1,
+                                description: module
+                            };
+                            let date = daysDates.toDateString();
+                        } else {
+                            let oldVal = daysObj[daysDates.toDateString()].value;
+                            let newVal = oldVal + 1;
+                            daysObj[daysDates.toDateString()] = {
+                                value: newVal,
+                                description: module
+                            };
+                        }
+                    }
+
+
+                });
+
+                for (var i in daysObj) {
+                    let dayName = daysObj[i].description;
+                    let dayValue = daysObj[i].value;
+                    keepData.push(dayValue)
+                    lineGroups.push(i)
+
+                    lineSeries.push({
+                        items: keepData
+                    });
+
+                    counter++;
+                };
+                self.lineSeriesValue(lineSeries);
+                self.lineGroupsValue(lineGroups);
+            }
+
+            ////////////////////////////////////////////////////////////////////
+
+            /* bar chart data */
             var barSeries = [];
             let year = new Date().getFullYear();
             var barGroups = [year];
@@ -105,10 +245,6 @@ define(
                 self.barSeriesValue(barSeries);
             }
 
-
-            // log and config data store
-            self.data = ko.observableArray();
-            self.configData = ko.observableArray();
 
             context.props.then(function (propertyMap) {
                 //Store a reference to the properties for any later use
