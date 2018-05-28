@@ -45,13 +45,58 @@ define([
 
     var rawData = [];
 
+    const dataImports = (url) => {
+      console.log(url);
+      // pull in config data
+      serviceworker
+        .getConfigData("GET", `//${url}/readconfig`)
+        .done(config => {
+          self.configData(config);
+        });
+
+      // retreiving data from backend service
+      serviceworker
+        .getLogData("GET", `//${url}/readactivity`)
+        .done(logs => {
+          loading('data');
+
+          self.logs(logs);
+          rawData = logs;
+
+          buildDropDownList(true);
+        });
+    };
+
+    // data initilisation
+    const initilisation = () => {
+      // check if param exist in url
+      let url = new URL(window.location);
+
+      if (url["hostname"]) {
+        let host = url["hostname"];
+
+        if (host.includes('appstage')) {
+          // call appstage backend
+          dataImports(host);
+
+        } else if (host.includes('appshare')) {
+          // call appshare backend
+          dataImports(host);
+
+        } else if (host.includes('localhost')) {
+          let url = "appsharebackend.steltix.com";
+          dataImports(url);
+        };
+      };
+    };
+    initilisation();
+
     self.selectedValue = event => {
       event.preventDefault();
       let option = event.detail.value;
 
       // check if param exist in url
       let url = new URL(window.location);
-
       if (url["search"]) {
         getParams(url["search"], option);
       } else {
@@ -63,6 +108,8 @@ define([
           accountFilter(option);
         };
       };
+
+
     };
 
     self.selectedDay = event => {
@@ -90,30 +137,6 @@ define([
     self.labelEdge = ko.computed(function () {
       return this.isSmall() ? "top" : "start";
     }, this);
-
-    ///////////////////////////////////////////////////
-
-    // pull in config data
-    serviceworker
-      .getConfigData("GET", "//localhost:3001/readconfig")
-      .done(config => {
-        self.configData(config);
-      });
-
-
-    /////////////////////////////////////////////////
-
-    // retreiving data from backend service
-    serviceworker
-      .getLogData("GET", "//localhost:3001/readactivity")
-      .done(logs => {
-        loading('data');
-
-        self.logs(logs);
-        rawData = logs;
-
-        buildDropDownList(true);
-      });
 
     const buildDropDownList = (configData = false) => {
       self.accounts([]);
