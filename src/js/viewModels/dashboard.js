@@ -78,13 +78,11 @@ define([
         if (host.includes('appstage')) {
           // call appstage backend
           dataImports(host);
-
         } else if (host.includes('appshare')) {
           // call appshare backend
           dataImports(host);
-
         } else if (host.includes('localhost')) {
-          let url = "appsharebackend.steltix.com";
+          let url = "localhost:3001";
           dataImports(url);
         };
       };
